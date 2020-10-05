@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParseManager {
-    private static List<LexerRule> createLexerRules(List<ANTLRv4Parser.LexerRuleSpecContext> lexerRules) {
+    public static List<LexerRule> createLexerRules(List<ANTLRv4Parser.LexerRuleSpecContext> lexerRules) throws Exception {
         List<LexerRule> resultList = new ArrayList<>();
         for (var rule: lexerRules) {
             LexerRule token = createLexerRule(rule);
@@ -16,8 +16,23 @@ public class ParseManager {
         return resultList;
     }
 
-    private static LexerRule createLexerRule(ANTLRv4Parser.LexerRuleSpecContext rule) {
-        return null;
+    private static LexerRule createLexerRule(ANTLRv4Parser.LexerRuleSpecContext ruleCtx) throws Exception {
+        String name = getLexerRuleName(ruleCtx);
+        List<ANTLRv4Parser.LexerAltContext> alternativesCtx = getAlternativesCtx3(ruleCtx);
+        List<LexerAlt>  alternatives = createLexerAlts(alternativesCtx);
+        LexerRule lr = new LexerRule(name);
+        lr.addAlternatives(alternatives);
+        return lr;
+    }
+
+    private static String getLexerRuleName(ANTLRv4Parser.LexerRuleSpecContext ctx) {
+        for (int i=0; i<ctx.getChildCount(); i++) {
+            if (ctx.getChild(i) instanceof TerminalNodeImpl) {
+                TerminalNodeImpl term = (TerminalNodeImpl)ctx.getChild(i);
+                return term.getText();
+            }
+        }
+        throw new ParseException("Not found name of lexer rule");
     }
 
     public static List<ParserRule> createParserRules(List<ANTLRv4Parser.ParserRuleSpecContext> parserRules) throws Exception {
@@ -45,10 +60,45 @@ public class ParseManager {
         return alternatives;
     }
 
+    private static List<LexerAlt> createLexerAlts(List<ANTLRv4Parser.LexerAltContext> alternativesCtx) {
+        List<LexerAlt>  alternatives = new ArrayList<>();
+        for (var altCtx: alternativesCtx)
+            alternatives.add(createLexerAlt(altCtx));
+        return alternatives;
+    }
+
+    private static LexerAlt createLexerAlt(ANTLRv4Parser.LexerAltContext altCtx) {
+        LexerAlt alternative = new LexerAlt();
+        List<ANTLRv4Parser.LexerElementContext> elementsCtx = getLexerElementsCtx(altCtx);
+        List<LexerElement> elements = createLexerElements(elementsCtx);
+        alternative.addLexerElements(elements);
+        return alternative;
+    }
+
+    private static List<LexerElement> createLexerElements(List<ANTLRv4Parser.LexerElementContext> elementsCtx) {
+        if (elementsCtx==null) return null;
+        List<LexerElement> elements = new ArrayList<>();
+        for (var ctx: elementsCtx)
+            elements.add(createLexerElement(ctx));
+        return elements;
+    }
+
+    private static List<ANTLRv4Parser.LexerElementContext> getLexerElementsCtx(ANTLRv4Parser.LexerAltContext altCtx) {
+        if (altCtx.children==null) return null;
+        List<ANTLRv4Parser.LexerElementContext> list = new ArrayList<>();
+        for (var ctx: altCtx.children) {
+            if (ctx instanceof ANTLRv4Parser.LexerElementContext) {
+                var elemCtx = (ANTLRv4Parser.LexerElementContext)ctx;
+                list.add(elemCtx);
+            }
+        }
+        return list;
+    }
+
     private static Alternative createAlternative(ANTLRv4Parser.AlternativeContext altCtx) throws Exception {
         Alternative alternative = new Alternative();
         List<ANTLRv4Parser.ElementContext> elementsCtx = getElementsCtx(altCtx);
-        List<Element>  elements = createElements(elementsCtx);
+        List<Element> elements = createElements(elementsCtx);
         alternative.addElements(elements);
         return alternative;
     }
@@ -59,6 +109,41 @@ public class ParseManager {
         for (var ctx: elementsCtx)
             elements.add(createElement(ctx));
         return elements;
+    }
+
+    private static LexerElement createLexerElement(ANTLRv4Parser.LexerElementContext ctx) {
+        var childCtx = ctx.getChild(0);
+        if (childCtx instanceof ANTLRv4Parser.LexerAtomContext) {
+            Repetitions rep = Repetitions.once;
+            if (ctx.getChildCount()>1)
+                rep = repFromSuffix((ANTLRv4Parser.EbnfSuffixContext)ctx.getChild(1));
+            return createLexerAtom((ANTLRv4Parser.LexerAtomContext)childCtx, rep);
+        }
+        else if (childCtx instanceof ANTLRv4Parser.LexerBlockContext) {
+            Repetitions rep = Repetitions.once;
+            if (ctx.getChildCount()>1)
+                rep = repFromSuffix((ANTLRv4Parser.EbnfSuffixContext)ctx.getChild(1));
+            return createLexerBlock((ANTLRv4Parser.LexerBlockContext)childCtx, rep);
+        } else throw new ParseException("not supported element Type "+childCtx.getClass().toString());
+    }
+
+    private static LexerElement createLexerBlock(ANTLRv4Parser.LexerBlockContext ctx, Repetitions rep) {
+        for (var el: ctx.children) {
+            if (el instanceof ANTLRv4Parser.LexerAltListContext) {
+                LexerAltList block = createLexerAltList((ANTLRv4Parser.LexerAltListContext) el);
+                block.rep  = rep;
+                return block;
+            }
+        }
+        throw new ParseException("no alexerAltList");
+    }
+
+    private static LexerAltList createLexerAltList(ANTLRv4Parser.LexerAltListContext ctx) {
+        LexerAltList result = new LexerAltList();
+        var altListCtx = getAlternativesCtx4(ctx);
+        List<LexerAlt>  altList = createLexerAlts(altListCtx);
+        result.addAlts(altList);
+        return result;
     }
 
     private static Element createElement(ANTLRv4Parser.ElementContext ctx) throws Exception {
@@ -98,6 +183,10 @@ public class ParseManager {
         return result;
     }
 
+    private static LexerElement createLexerAtom(ANTLRv4Parser.LexerAtomContext ctx, Repetitions rep) {
+        return null; //@todo
+    }
+
     private static Element createAtom(ANTLRv4Parser.AtomContext ctx, Repetitions rep) {
         Atom atom = new Atom();
         var childCtx = ctx.getChild(0);
@@ -108,10 +197,7 @@ public class ParseManager {
                 atom.kind = RefKind.TokenLiteral;
             else
                 atom.kind = RefKind.TokenRef;
-        } else if (childCtx instanceof TerminalNodeImpl) {
-            atom.kind = RefKind.RuleRef;
-            atom.cargo = ((TerminalNodeImpl)childCtx).getText();
-        }
+        } else throw new ParseException("lexerAtom - not implemented alternative");
         atom.rep = rep;
         return atom;
     }
@@ -165,6 +251,24 @@ public class ParseManager {
         return alternativesCtx;
     }
 
+    private static List<ANTLRv4Parser.LexerAltContext> getAlternativesCtx3(ANTLRv4Parser.LexerRuleSpecContext ctx) throws Exception {
+        List<ANTLRv4Parser.LexerAltContext> alternativesCtx = new ArrayList<>();
+        ANTLRv4Parser.LexerRuleBlockContext block = null;
+        for (int i=0; i<ctx.getChildCount(); i++) {
+            if (ctx.getChild(i) instanceof ANTLRv4Parser.LexerRuleBlockContext) {
+                block = (ANTLRv4Parser.LexerRuleBlockContext)ctx.getChild(i);
+            }
+        }
+        if (block==null) throw new ParseException("not found LexerRuleBlock");
+        ANTLRv4Parser.LexerAltListContext altList = (ANTLRv4Parser.LexerAltListContext)block.getChild(0);
+        for (var elem: altList.children) {
+            if (elem instanceof ANTLRv4Parser.LexerAltContext) {
+                alternativesCtx.add((ANTLRv4Parser.LexerAltContext)elem);
+            }
+        }
+        return alternativesCtx;
+    }
+
     private static List<ANTLRv4Parser.AlternativeContext> getAlternativesCtx2(ANTLRv4Parser.AltListContext ctx) throws Exception {
         List<ANTLRv4Parser.AlternativeContext> alternativesCtx = new ArrayList<>();
         for (var el: ctx.children) {
@@ -174,6 +278,17 @@ public class ParseManager {
         }
         return alternativesCtx;
     }
+
+    private static List<ANTLRv4Parser.LexerAltContext> getAlternativesCtx4(ANTLRv4Parser.LexerAltListContext ctx) {
+        List<ANTLRv4Parser.LexerAltContext> alternativesCtx = new ArrayList<>();
+        for (var el: ctx.children) {
+            if (el instanceof ANTLRv4Parser.LexerAltContext) {
+                alternativesCtx.add((ANTLRv4Parser.LexerAltContext)el);
+            }
+        }
+        return alternativesCtx;
+    }
+
 
     private static String getParseRuleName(ANTLRv4Parser.ParserRuleSpecContext ctx) throws Exception {
         for (int i=0; i<ctx.getChildCount(); i++) {

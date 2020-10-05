@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.monkey.pars.LexerRule;
 import org.monkey.pars.ParseException;
 import org.monkey.pars.ParseManager;
 import org.monkey.pars.ParserRule;
@@ -47,8 +48,9 @@ public class App
         ParseTreeWalker.DEFAULT.walk(extractor, tree);
         System.out.println(extractor.parserRules.size());
         try {
-            List<ParserRule>  rules = ParseManager.createParserRules(extractor.parserRules);
-            System.out.println(rules.get(0).toString());
+            List<ParserRule>  rulesP = ParseManager.createParserRules(extractor.parserRules);
+            List<LexerRule>  rulesL = ParseManager.createLexerRules(extractor.lexerRules);
+            System.out.println(rulesL.get(0).toString());
         } catch (ParseException e) {
             System.err.println(e.getMessage());
         } catch (Exception e) {
