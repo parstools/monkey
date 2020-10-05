@@ -20,4 +20,7 @@ public class MonkeyListener extends ANTLRv4ParserBaseListener {
         }
         parserRules.add(ctx);
     }
+
+    @Override public void enterLexerRuleSpec(ANTLRv4Parser.LexerRuleSpecContext ctx) {
+    }
 }
