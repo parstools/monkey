@@ -1,7 +1,7 @@
 grammar complex;
 
 elem: 
-     El5+? | El2 El3 | (El1 El2*? (El3?|(El5 El6 (El8|El9)? El7)|))* | ;
+     El5+? | El2 El3 | (El1 () El2*? (El3?|(El5 El6 (El8|El9)? El7)|))* | ;
 
 Whitespace: [ \t]+ -> skip;
 
