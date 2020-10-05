@@ -21,4 +21,11 @@ public class LexerAlt {
         }
         return s;
     }
+
+    public String realizeString() {
+        String s = "";
+        for (var element: elements)
+            s += element.realizeString();
+        return s;
+    }
 }

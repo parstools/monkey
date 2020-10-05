@@ -1,6 +1,7 @@
 package org.monkey.pars;
 
 import org.monkey.lexer.Type;
+import org.monkey.tree.RuleManager;
 
 import java.util.List;
 
@@ -32,5 +33,12 @@ public class LexerRule extends Repetitive {
     @Override
     public Type getType() {
         return Type.LexerRule;
+    }
+
+    public String realizeString() {
+        if (alternatives.isEmpty()) return "";
+        int index = RuleManager.generator.nextInt(alternatives.size());
+        var alt = alternatives.get(index);
+        return alt.realizeString();
     }
 }

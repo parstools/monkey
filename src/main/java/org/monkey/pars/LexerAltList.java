@@ -1,5 +1,7 @@
 package org.monkey.pars;
 
+import org.monkey.tree.RuleManager;
+
 import java.util.List;
 
 public class LexerAltList extends LexerElement{
@@ -19,5 +21,21 @@ public class LexerAltList extends LexerElement{
             s+=alt.toString();
         }
         return s+")"+suffixToString();
+    }
+
+    public String realizeString() {
+        if (altList.isEmpty()) return "";
+        int index = RuleManager.generator.nextInt(altList.size());
+        var alt = altList.get(index);
+        String s = alt.realizeString();
+        int count;
+        if (rep==Repetitions.once || rep==Repetitions.maybe)
+            count = 1;
+        else
+            count = 4;
+        String result = "";
+        for (int j=0; j<count; j++)
+            result += s;
+        return s;
     }
 }

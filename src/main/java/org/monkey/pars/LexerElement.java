@@ -1,6 +1,6 @@
 package org.monkey.pars;
 
-public class LexerElement {
+public abstract class LexerElement {
     public Repetitions rep;
 
     protected String suffixToString() {
@@ -13,4 +13,6 @@ public class LexerElement {
         else
             return "";
     }
+
+    public abstract String realizeString();
 }

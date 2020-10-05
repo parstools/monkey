@@ -10,6 +10,6 @@ public class TermNode  extends Node {
     @Override
     void print() {
         LexerRule t = (LexerRule)ntORt;
-        System.out.print(t.toString()+" ");
+        System.out.print(t.realizeString()+" ");
     }
 }
