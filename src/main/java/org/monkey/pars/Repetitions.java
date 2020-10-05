@@ -1,4 +1,4 @@
-package org.monkey.lexer;
+package org.monkey.pars;
 
 public enum Repetitions {
     once, maybe, oneOrMore, zeroOrMore

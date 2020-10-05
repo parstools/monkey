@@ -1,6 +1,6 @@
 package org.monkey.gram;
 
-import org.monkey.lexer.Repetitions;
+import org.monkey.pars.Repetitions;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Token;
 import org.monkey.lexer.Type;
