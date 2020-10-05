@@ -1,9 +1,10 @@
 package org.monkey.pars;
 
 import org.monkey.lexer.Repetitions;
+import org.monkey.lexer.Repetitive;
 
-public class Element {
-    public Repetitions rep;
+//@todo remove it
+public abstract class Element extends Repetitive {
 
     protected String suffixToString() {
         if (rep==Repetitions.maybe)
