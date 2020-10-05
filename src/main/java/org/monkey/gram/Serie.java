@@ -1,8 +1,8 @@
 package org.monkey.gram;
 
+import org.monkey.pars.LexerRule;
 import org.monkey.pars.Repetitions;
-import org.monkey.lexer.Repetitive;
-import org.monkey.lexer.Token;
+import org.monkey.pars.Repetitive;
 import org.monkey.lexer.Type;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class Serie extends Repetitive {
     RealizedRule removePump(RealizedRule rule) {
         RealizedRule result = new RealizedRule();
         for (var elem : rule.list)
-            if (elem instanceof Nonterminal || elem instanceof Token)
+            if (elem instanceof Nonterminal || elem instanceof LexerRule)
                 result.add(elem);
         return result;
     }
@@ -106,7 +106,7 @@ public class Serie extends Repetitive {
                 int index3 = 0;
                 RealizedRule rule = new RealizedRule();
                 for (var elem : list) {
-                    if (elem instanceof Token || elem instanceof Nonterminal)
+                    if (elem instanceof LexerRule || elem instanceof Nonterminal)
                         rule.add(elem);
                     else if (elem instanceof  Serie || elem.getClass()== AltSet.class) {
                         var list2 = list3.get(index3);
@@ -202,7 +202,7 @@ public class Serie extends Repetitive {
         for (int i=0; i<list.size(); i++) {
             var elem = list.get(i);
             var rep = reps.get(i);
-            if (elem instanceof Token || elem instanceof Nonterminal)
+            if (elem instanceof LexerRule || elem instanceof Nonterminal)
                 resSerie.add(elem, Repetitions.once);
             else if (elem instanceof Serie) {
                 var subserie = ((Serie)elem).setRepOnce().list;

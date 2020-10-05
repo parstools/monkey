@@ -1,8 +1,8 @@
 package org.monkey.tree;
 
 import org.monkey.gram.*;
-import org.monkey.lexer.Token;
 import org.monkey.lexer.Type;
+import org.monkey.pars.LexerRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +64,8 @@ public class NontermNode extends Node {
                 NontermNode node = new NontermNode((Nonterminal) elem);
                 childs.add(node);
             }
-            else if (elem.getType()==Type.terminal) {
-                TermNode node = new TermNode((Token) elem);
+            else if (elem.getType()==Type.LexerRule) {
+                TermNode node = new TermNode((LexerRule) elem);
                 childs.add(node);
             }
         }
@@ -93,8 +93,8 @@ public class NontermNode extends Node {
                 NontermNode node = new NontermNode((Nonterminal) elem);
                 childs.add(index+pumpSize*k+i, node);
             }
-            else if (elem.getType()==Type.terminal) {
-                TermNode node = new TermNode((Token) elem);
+            else if (elem.getType()==Type.LexerRule) {
+                TermNode node = new TermNode((LexerRule) elem);
                 childs.add(index+pumpSize*k+i, node);
             }
         }

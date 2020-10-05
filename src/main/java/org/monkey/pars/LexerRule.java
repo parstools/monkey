@@ -1,8 +1,10 @@
 package org.monkey.pars;
 
+import org.monkey.lexer.Type;
+
 import java.util.List;
 
-public class LexerRule {
+public class LexerRule extends Repetitive {
     String name;
     List<LexerAlt> alternatives;
 
@@ -27,4 +29,8 @@ public class LexerRule {
         return s;
     }
 
+    @Override
+    public Type getType() {
+        return Type.LexerRule;
+    }
 }

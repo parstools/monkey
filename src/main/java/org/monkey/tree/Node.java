@@ -1,6 +1,6 @@
 package org.monkey.tree;
 
-import org.monkey.lexer.Repetitive;
+import org.monkey.pars.Repetitive;
 
 public abstract class Node {
     protected Repetitive ntORt;

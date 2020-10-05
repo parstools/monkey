@@ -1,15 +1,15 @@
 package org.monkey.tree;
 
-import org.monkey.lexer.Token;
+import org.monkey.pars.LexerRule;
 
 public class TermNode  extends Node {
-    public TermNode(Token token) {
+    public TermNode(LexerRule token) {
         this.ntORt = token;
     }
 
     @Override
     void print() {
-        Token t = (Token)ntORt;
+        LexerRule t = (LexerRule)ntORt;
         System.out.print(t.toString()+" ");
     }
 }

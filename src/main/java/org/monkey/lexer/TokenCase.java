@@ -1,5 +1,6 @@
 package org.monkey.lexer;
 
+import org.monkey.pars.Repetitive;
 import org.monkey.tree.RuleManager;
 
 import java.util.ArrayList;

@@ -29,11 +29,21 @@ import java.util.List;
  */
 public class App 
 {
-    static Nonterminal initGram2() {
+    static Nonterminal initGram2(MonkeyListener extractor) throws Exception {
+        List<LexerRule>  rulesL = ParseManager.createLexerRules(extractor.lexerRules);
+        for (int i=0; i<rulesL.size(); i++)
+            System.out.println(rulesL.get(i).toString());
         Nonterminal e = new Nonterminal("e");
         Nonterminal m = new Nonterminal("m");
         Nonterminal p = new Nonterminal("p");
-        Token plus = new Token("plus", new TokenSimple("+"));
+        var plus = rulesL.get(1);
+        var minus = rulesL.get(2);
+        var star = rulesL.get(3);
+        var div = rulesL.get(4);
+        var left = rulesL.get(5);
+        var right= rulesL.get(6);
+        var literal =  rulesL.get(0);
+        /*Token plus = new Token("plus", new TokenSimple("+"));
         Token minus = new Token("minus", new TokenSimple("-"));
         Token star = new Token("star", new TokenSimple("*"));
         Token div = new Token("div", new TokenSimple("/"));
@@ -45,7 +55,7 @@ public class App
         part.add(fragment, Repetitions.oneOrMore);
         Token literal = new Token("literal", part);
         Token left = new Token("left", new TokenSimple("("));
-        Token right = new Token("right", new TokenSimple(")"));
+        Token right = new Token("right", new TokenSimple(")"));*/
         Serie alt = new Serie();
         Serie subalt;
         alt.add(m, Repetitions.once);
@@ -90,7 +100,6 @@ public class App
         return e;
     }
 
-
     public static void main(String[] args) {
         String inputFile = null;
         if ( args.length>0 ) inputFile = args[0];
@@ -124,11 +133,15 @@ public class App
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-        test2();
+        try {
+            test2(extractor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void test2() {
-        Nonterminal start = initGram2();
+    private static void test2(MonkeyListener extractor) throws Exception {
+        Nonterminal start = initGram2(extractor);
         start.setChildsTree();
         start.clearVisitetTree();
         start.updateParentsTree();
