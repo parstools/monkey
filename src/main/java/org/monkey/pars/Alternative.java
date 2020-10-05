@@ -1,4 +1,4 @@
-package org.monkey.gram;
+package org.monkey.pars;
 
 public class Alternative {
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class AltList extends Repetitive {
+public class AltSet extends Repetitive {
     protected List<Serie> list = new ArrayList<>();
 
     public Type getType() {return Type.altList;}

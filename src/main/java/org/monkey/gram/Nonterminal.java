@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Nonterminal extends AltList {
+public class Nonterminal extends AltSet {
     String name;
     public Nonterminal(String name) {
         this.name = name;

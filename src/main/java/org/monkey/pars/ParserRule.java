@@ -1,4 +1,6 @@
-package org.monkey.gram;
+package org.monkey.pars;
+
+import org.monkey.pars.Alternative;
 
 import java.util.List;
 

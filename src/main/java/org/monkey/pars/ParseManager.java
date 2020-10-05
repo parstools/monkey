@@ -1,4 +1,4 @@
-package org.monkey.gram;
+package org.monkey.pars;
 
 import org.antlr.parser.antlr4.ANTLRv4Parser;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
@@ -7,7 +7,7 @@ import org.monkey.lexer.Token;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParsManager {
+public class ParseManager {
     private static List<Token> createTerminals(List<ANTLRv4Parser.LexerRuleSpecContext> lexerRules) {
         List<Token> resultList = new ArrayList<>();
         for (var rule: lexerRules) {

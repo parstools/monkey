@@ -23,8 +23,8 @@ public class Serie extends Repetitive {
                 ntSubList = null; //nothing to avoid loop recurrence
                 ntList.add((Nonterminal)sym);
             }
-            else if (sym.getClass()== AltList.class)
-                ntSubList = ((AltList)sym).getChildNT();
+            else if (sym.getClass()== AltSet.class)
+                ntSubList = ((AltSet)sym).getChildNT();
             else if (sym instanceof Serie)
                 ntSubList = ((Serie)sym).getChildNT();
             else
@@ -108,7 +108,7 @@ public class Serie extends Repetitive {
                 for (var elem : list) {
                     if (elem instanceof Token || elem instanceof Nonterminal)
                         rule.add(elem);
-                    else if (elem instanceof  Serie || elem.getClass()== AltList.class) {
+                    else if (elem instanceof  Serie || elem.getClass()== AltSet.class) {
                         var list2 = list3.get(index3);
                         var list1 = list2.get(i % list2.size());
                         rule.addAll(list1);
@@ -162,8 +162,8 @@ public class Serie extends Repetitive {
                 }
                 subruleList.add(newRules);
             }
-            else if  (elem.getClass()== AltList.class) {
-                var subrules = ((AltList)elem).makeRealizedRules();
+            else if  (elem.getClass()== AltSet.class) {
+                var subrules = ((AltSet)elem).makeRealizedRules();
                 List<RealizedRule> newRules = new ArrayList<>();
                 switch (rep) {
                     case once:newRules.addAll(subrules); break;
@@ -175,13 +175,13 @@ public class Serie extends Repetitive {
                     case oneOrMore:{
                         newRules.addAll(subrules);
                         newRules.add(join(subrules));
-                        newRules.get(0).add(((AltList)elem).setRepOnce());
+                        newRules.get(0).add(((AltSet)elem).setRepOnce());
                     } break;
                     case zeroOrMore:{
                         RealizedRule emptyRule = new RealizedRule();
                         newRules.add(emptyRule);
                         newRules.add(join(subrules));
-                        newRules.get(0).add(((AltList)elem).setRepOnce());
+                        newRules.get(0).add(((AltSet)elem).setRepOnce());
                     } break;
                 }
                 subruleList.add(newRules);
@@ -207,9 +207,9 @@ public class Serie extends Repetitive {
             else if (elem instanceof Serie) {
                 var subserie = ((Serie)elem).setRepOnce().list;
                 resSerie.addAllOnce(subserie);
-            } if (elem.getClass()== AltList.class) {
+            } if (elem.getClass()== AltSet.class) {
                 if (rep==Repetitions.oneOrMore || rep==Repetitions.zeroOrMore) {
-                    var subserie = ((AltList) elem).setRepOnce().list;
+                    var subserie = ((AltSet) elem).setRepOnce().list;
                     resSerie.addAllOnce(subserie);
                 } else {
                     return null;
@@ -221,7 +221,7 @@ public class Serie extends Repetitive {
 
     private RealizeType getRealizeType() {
         for (var elem: list)
-            if (elem instanceof  Serie || elem.getClass()== AltList.class)
+            if (elem instanceof  Serie || elem.getClass()== AltSet.class)
                 return RealizeType.complex;
         for (var rep: reps)
             if (rep!=Repetitions.once)
