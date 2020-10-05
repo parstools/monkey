@@ -38,5 +38,6 @@ public class App
         ANTLRv4Parser.GrammarSpecContext tree = parser.grammarSpec(); // parse a compilationUnit
         MonkeyListener extractor = new MonkeyListener();
         ParseTreeWalker.DEFAULT.walk(extractor, tree);
+        System.out.println(extractor.parserRules.size());
     }
 }
