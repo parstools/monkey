@@ -44,6 +44,13 @@ public class AltList extends Repetitive {
         }
     }
 
+    @Override
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        for (var elem: alternatives) {
+            elem.updateParserRef(parserMap);
+        }
+    }
+
     public List<RealizedRule1> makeRealizedRules() {
         List<RealizedRule1> rules = new ArrayList<>();
         for (var alt : alternatives){

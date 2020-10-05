@@ -11,6 +11,7 @@ public class Atom extends Repetitive {
     public String cargo;
     public RefKind kind;
     public LexerRule cargoLexerRule = null;
+    public ParserRule cargoParserRule = null;
 
     @Override
     public String toString() {
@@ -32,5 +33,12 @@ public class Atom extends Repetitive {
         if (kind==RefKind.TokenRef)
             if (lexerMap.containsKey(cargo))
                 cargoLexerRule = lexerMap.get(cargo);
+    }
+
+    @Override
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        if (kind==RefKind.RuleRef)
+            if (parserMap.containsKey(cargo))
+                cargoParserRule = parserMap.get(cargo);
     }
 }

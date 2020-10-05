@@ -33,6 +33,13 @@ public class Pump extends Repetitive {
         }
     }
 
+    @Override
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        for (var elem: list) {
+            elem.updateParserRef(parserMap);
+        }
+    }
+
     public void add(Repetitive elem) {
         list.add(elem);
     }

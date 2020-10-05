@@ -40,6 +40,10 @@ public class App
             parserMap.put(rule.name, rule);
         for (var rule: rulesL)
             rule.updateLexerRef(lexerMap);
+        for (var rule: rulesP) {
+            rule.updateLexerRef(lexerMap);
+            rule.updateParserRef(parserMap);
+        }
 
         for (int i=0; i<rulesL.size(); i++)
             System.out.println(rulesL.get(i).toString());

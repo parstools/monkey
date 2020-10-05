@@ -3,6 +3,7 @@ package org.monkey.gram;
 import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
+import org.monkey.pars.ParserRule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,13 @@ public class AltSet extends Repetitive {
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
         for (var elem: list) {
             elem.updateLexerRef(lexerMap);
+        }
+    }
+
+    @Override
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        for (var elem: list) {
+            elem.updateParserRef(parserMap);
         }
     }
 

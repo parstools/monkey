@@ -4,6 +4,7 @@ import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitions;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
+import org.monkey.pars.ParserRule;
 import org.monkey.pars.RealizeType;
 
 import java.util.ArrayList;
@@ -26,6 +27,13 @@ public class Serie extends Repetitive {
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
         for (var elem: list) {
             elem.updateLexerRef(lexerMap);
+        }
+    }
+
+    @Override
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        for (var elem: list) {
+            elem.updateParserRef(parserMap);
         }
     }
 

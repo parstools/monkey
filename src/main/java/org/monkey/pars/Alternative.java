@@ -23,7 +23,7 @@ public class Alternative extends Repetitive {
         return s;
     }
 
-    public void addElements(List<Repetitive> Repetitive) {
+    public void addElements(List<Repetitive> elements) {
         this.elements = elements;
     }
 
@@ -222,6 +222,13 @@ public class Alternative extends Repetitive {
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
         for (var elem: elements) {
             elem.updateLexerRef(lexerMap);
+        }
+    }
+
+    @Override
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        for (var elem: elements) {
+            elem.updateParserRef(parserMap);
         }
     }
 

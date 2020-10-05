@@ -1,5 +1,7 @@
 package org.monkey.lexer;
 
+import org.monkey.pars.ParserRule;
+
 import java.util.HashMap;
 
 public abstract class Repetitive {
@@ -19,4 +21,6 @@ public abstract class Repetitive {
             return "";
     }
     public abstract void updateLexerRef(HashMap<String, LexerRule> lexerMap);
+
+    public abstract void updateParserRef(HashMap<String, ParserRule> parserMap);
 }

@@ -1,6 +1,7 @@
 package org.monkey.lexer;
 
 import org.antlr.v4.runtime.Lexer;
+import org.monkey.pars.ParserRule;
 
 import java.util.HashMap;
 
@@ -8,6 +9,7 @@ public class LexerAtom extends Repetitive {
     public String cargo;
     public RefKind kind;
     public LexerRule cargoLexerRule = null;
+    public ParserRule cargoParserRule = null;
 
     @Override
     public String toString() {
@@ -39,6 +41,13 @@ public class LexerAtom extends Repetitive {
         if (kind==RefKind.TokenRef)
             if (lexerMap.containsKey(cargo))
                 cargoLexerRule = lexerMap.get(cargo);
+    }
+
+    @Override
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        if (kind==RefKind.RuleRef)
+            if (parserMap.containsKey(cargo))
+                cargoParserRule = parserMap.get(cargo);
     }
 
     private static String removeQuotes(String cargo) {

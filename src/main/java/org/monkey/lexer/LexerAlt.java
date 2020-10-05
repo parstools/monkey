@@ -1,5 +1,7 @@
 package org.monkey.lexer;
 
+import org.monkey.pars.ParserRule;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +35,12 @@ public class LexerAlt {
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
         for (var elem: elements) {
             elem.updateLexerRef(lexerMap);
+        }
+    }
+
+    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+        for (var elem: elements) {
+            elem.updateParserRef(parserMap);
         }
     }
 }
