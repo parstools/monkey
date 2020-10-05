@@ -1,7 +1,5 @@
 package org.monkey.lexer;
 
-import org.monkey.tree.RuleManager;
-
 import java.util.List;
 
 public class LexerRule extends Repetitive {
@@ -36,7 +34,7 @@ public class LexerRule extends Repetitive {
 
     public String realizeString() {
         if (alternatives.isEmpty()) return "";
-        int index = RuleManager.generator.nextInt(alternatives.size());
+        int index = LexerManager.generator.nextInt(alternatives.size());
         var alt = alternatives.get(index);
         return alt.realizeString();
     }

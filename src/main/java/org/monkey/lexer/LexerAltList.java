@@ -1,7 +1,5 @@
 package org.monkey.lexer;
 
-import org.monkey.tree.RuleManager;
-
 import java.util.List;
 
 public class LexerAltList extends LexerElement{
@@ -25,7 +23,7 @@ public class LexerAltList extends LexerElement{
 
     public String realizeString() {
         if (altList.isEmpty()) return "";
-        int index = RuleManager.generator.nextInt(altList.size());
+        int index = LexerManager.generator.nextInt(altList.size());
         var alt = altList.get(index);
         String s = alt.realizeString();
         int count;

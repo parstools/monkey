@@ -1,7 +1,5 @@
 package org.monkey.lexer;
 
-import org.monkey.tree.RuleManager;
-
 public class LexerAtom extends LexerElement {
     public String cargo;
     public RefKind kind;
@@ -39,10 +37,10 @@ public class LexerAtom extends LexerElement {
         if (cargo.isEmpty() || cargo.charAt(0)!='[' || cargo.charAt(cargo.length()-1)!=']')
             throw new ParseException("must be [] in range");
         int numRanges = cargo.length()/2-1;
-        int index = RuleManager.generator.nextInt(numRanges);
+        int index = LexerManager.generator.nextInt(numRanges);
         char from = cargo.charAt(index*2+1);
         char to = cargo.charAt(index*2+2);
-        index = RuleManager.generator.nextInt(to-from+1);
+        index = LexerManager.generator.nextInt(to-from+1);
         return (char)(from+index);
     }
 }

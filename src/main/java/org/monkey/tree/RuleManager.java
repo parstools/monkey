@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Random;
 
 public class RuleManager {
-    public static Random generator = new Random(123);
     public static void expandPumps(List<PumpRule> pumps) {
         for (var pump: pumps) {
             List<Object> nodes = pump.r.nodes;
