@@ -59,7 +59,6 @@ public class NontermNode extends Node {
         }
         choosedRule.useCount++;
         choosedRule.nodes.add(this);
-        //todo dry
         for (var elem: choosedRule.list) {
             if (elem.getType()== Type.nonterminal) {
                 NontermNode node = new NontermNode((Nonterminal) elem);

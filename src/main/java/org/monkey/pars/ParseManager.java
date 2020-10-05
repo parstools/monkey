@@ -183,8 +183,20 @@ public class ParseManager {
         return result;
     }
 
-    private static LexerElement createLexerAtom(ANTLRv4Parser.LexerAtomContext ctx, Repetitions rep) {
-        return null; //@todo
+    private static LexerAtom createLexerAtom(ANTLRv4Parser.LexerAtomContext ctx, Repetitions rep) {
+        LexerAtom atom = new LexerAtom();
+        var childCtx = ctx.getChild(0);
+        if (childCtx instanceof ANTLRv4Parser.TerminalContext) {
+            var child2Ctx = childCtx.getChild(0);
+            atom.cargo = ((TerminalNodeImpl)child2Ctx).getText();
+            if (atom.cargo.charAt(0)=='\'')
+                atom.kind = RefKind.TokenLiteral;
+            else
+                atom.kind = RefKind.TokenRef;
+        }
+        else throw new ParseException("Atom - not implemented alternative");
+        atom.rep = rep;
+        return atom;
     }
 
     private static Element createAtom(ANTLRv4Parser.AtomContext ctx, Repetitions rep) {
@@ -197,7 +209,11 @@ public class ParseManager {
                 atom.kind = RefKind.TokenLiteral;
             else
                 atom.kind = RefKind.TokenRef;
-        } else throw new ParseException("lexerAtom - not implemented alternative");
+        } else if (childCtx instanceof TerminalNodeImpl) {
+            atom.kind = RefKind.RuleRef;
+            atom.cargo = ((TerminalNodeImpl)childCtx).getText();
+        }
+        else throw new ParseException("Atom - not implemented alternative");
         atom.rep = rep;
         return atom;
     }
