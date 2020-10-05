@@ -84,9 +84,10 @@ public class ParseManager {
     }
 
     private static List<ANTLRv4Parser.LexerElementContext> getLexerElementsCtx(ANTLRv4Parser.LexerAltContext altCtx) {
-        if (altCtx.children==null) return null;
+        var lexerElements =( ANTLRv4Parser.LexerElementsContext)altCtx.getChild(0);
+        if (lexerElements.children==null) return null;
         List<ANTLRv4Parser.LexerElementContext> list = new ArrayList<>();
-        for (var ctx: altCtx.children) {
+        for (var ctx: lexerElements.children) {
             if (ctx instanceof ANTLRv4Parser.LexerElementContext) {
                 var elemCtx = (ANTLRv4Parser.LexerElementContext)ctx;
                 list.add(elemCtx);
@@ -193,8 +194,12 @@ public class ParseManager {
                 atom.kind = RefKind.TokenLiteral;
             else
                 atom.kind = RefKind.TokenRef;
+        } else if (childCtx instanceof TerminalNodeImpl) {
+            atom.kind = RefKind.Fragment;
+            atom.cargo = ((TerminalNodeImpl)childCtx).getText();
         }
-        else throw new ParseException("Atom - not implemented alternative");
+        else
+            throw new ParseException("LexerAtom - not implemented alternative");
         atom.rep = rep;
         return atom;
     }
