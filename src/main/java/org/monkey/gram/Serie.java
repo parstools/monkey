@@ -16,6 +16,11 @@ public class Serie extends Repetitive {
 
     public Type getType() {return Type.serie;}
 
+    @Override
+    public String realizeString() {
+        return null;
+    }
+
     public List<Nonterminal> getChildNT() {
         List<Nonterminal> ntList = new ArrayList<>();
         for (Repetitive sym:list) {

@@ -2,7 +2,7 @@ package org.monkey.lexer;
 
 import java.util.List;
 
-public class LexerAltList extends LexerElement{
+public class LexerAltList extends Repetitive {
     List<LexerAlt> altList;
 
     public void addAlts(List<LexerAlt> altList) {
@@ -19,6 +19,11 @@ public class LexerAltList extends LexerElement{
             s+=alt.toString();
         }
         return s+")"+suffixToString();
+    }
+
+    @Override
+    public Type getType() {
+        return Type.LexerAltList;
     }
 
     public String realizeString() {

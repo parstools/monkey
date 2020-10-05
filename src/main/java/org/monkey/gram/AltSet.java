@@ -12,6 +12,11 @@ public class AltSet extends Repetitive {
 
     public Type getType() {return Type.altList;}
 
+    @Override
+    public String realizeString() {
+        return null;
+    }
+
     public void add(Serie alt) {
         list.add(alt);
     }

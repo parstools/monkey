@@ -7,7 +7,7 @@ import org.monkey.lexer.Type;
 
 import java.util.*;
 
-public class Alternative extends Element{
+public class Alternative extends Repetitive {
     List<Repetitive> elements;
 
     @Override
@@ -23,7 +23,7 @@ public class Alternative extends Element{
         return s;
     }
 
-    public void addElements(List<Element> Repetitive) {
+    public void addElements(List<Repetitive> Repetitive) {
         this.elements = elements;
     }
 
@@ -211,6 +211,11 @@ public class Alternative extends Element{
     @Override
     public Type getType() {
         return Type.Alternative;
+    }
+
+    @Override
+    public String realizeString() {
+        return null;
     }
 
     public List<ParserRule> getChildPR() {

@@ -1,9 +1,10 @@
 package org.monkey.pars;
 
 import org.monkey.lexer.RefKind;
+import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
-public class Atom extends Element {
+public class Atom extends Repetitive {
     public String cargo;
     public RefKind kind;
 
@@ -15,5 +16,10 @@ public class Atom extends Element {
     @Override
     public Type getType() {
         return Type.Atom;
+    }
+
+    @Override
+    public String realizeString() {
+        return null;
     }
 }

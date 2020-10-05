@@ -3,9 +3,9 @@ package org.monkey.lexer;
 import java.util.List;
 
 public class LexerAlt {
-    List<LexerElement> elements;
+    List<Repetitive> elements;
 
-    public void addLexerElements(List<LexerElement> elements) {
+    public void addLexerElements(List<Repetitive> elements) {
         this.elements = elements;
     }
 

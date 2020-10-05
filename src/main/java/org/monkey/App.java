@@ -30,11 +30,16 @@ public class App
 {
     static Nonterminal initGram2(MonkeyListener extractor) throws Exception {
         List<LexerRule>  rulesL = ParseManager.createLexerRules(extractor.lexerRules);
+        List<ParserRule>  rulesP = ParseManager.createParserRules(extractor.parserRules);
         for (int i=0; i<rulesL.size(); i++)
             System.out.println(rulesL.get(i).toString());
         Nonterminal e = new Nonterminal("e");
         Nonterminal m = new Nonterminal("m");
         Nonterminal p = new Nonterminal("p");
+
+        ParserRule e1 = rulesP.get(0);
+        ParserRule m1 = rulesP.get(1);
+        ParserRule p1 = rulesP.get(2);
         var plus = rulesL.get(1);
         var minus = rulesL.get(2);
         var star = rulesL.get(3);
@@ -83,7 +88,7 @@ public class App
         alt.add(e, Repetitions.once);
         alt.add(right, Repetitions.once);
         p.add(alt);
-        p.realize();
+        //p.realize();
         return e;
     }
 

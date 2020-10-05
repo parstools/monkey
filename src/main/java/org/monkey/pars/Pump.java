@@ -1,12 +1,11 @@
 package org.monkey.pars;
 
-import org.monkey.lexer.Repetitions;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
 import java.util.List;
 
-public class Pump extends Element {
+public class Pump extends Repetitive {
     List<Repetitive> list;
     int pumpPRcount() {
         int counter = 0;
@@ -18,6 +17,11 @@ public class Pump extends Element {
     @Override
     public Type getType() {
         return Type.Pump;
+    }
+
+    @Override
+    public String realizeString() {
+        return null;
     }
 
     public void add(Repetitive elem) {

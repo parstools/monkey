@@ -1,12 +1,13 @@
 package org.monkey.pars;
 
+import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class AltList extends Element {
+public class AltList extends Repetitive {
     List<Alternative> alternatives;
     public void addAlts(List<Alternative> altList) {
         this.alternatives = altList;
@@ -27,6 +28,11 @@ public class AltList extends Element {
     @Override
     public Type getType() {
         return Type.AltList;
+    }
+
+    @Override
+    public String realizeString() {
+        return null;
     }
 
     public List<RealizedRule1> makeRealizedRules() {

@@ -1,6 +1,6 @@
 package org.monkey.lexer;
 
-public class LexerAtom extends LexerElement {
+public class LexerAtom extends Repetitive {
     public String cargo;
     public RefKind kind;
 
@@ -42,5 +42,10 @@ public class LexerAtom extends LexerElement {
         char to = cargo.charAt(index*2+2);
         index = LexerManager.generator.nextInt(to-from+1);
         return (char)(from+index);
+    }
+
+    @Override
+    public Type getType() {
+        return Type.LexerAtom;
     }
 }
