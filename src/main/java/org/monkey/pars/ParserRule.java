@@ -45,12 +45,12 @@ public class ParserRule extends AltList {
         HashMap<ParserRule,PrPumps> PrPumps = new HashMap<>();
         for (var rule: realizedRules) {
             for (var sym : rule.list) {
-                if (sym instanceof ParserRule) {
+                if (sym instanceof Atom && ((Atom)sym).cargoParserRule!=null) {
                     if (!PrPumps.containsKey(sym))
                         PrPumps.put((ParserRule)sym, new PrPumps(sym));
                 } else if (sym instanceof Pump) {
                     for (var subsym : ((Pump)sym).list) {
-                        if (subsym instanceof ParserRule)
+                        if (subsym instanceof Atom && ((Atom)subsym).cargoParserRule!=null)
                         {
                             if (!PrPumps.containsKey(subsym))
                                 PrPumps.put((ParserRule)subsym, new PrPumps(subsym));
@@ -145,9 +145,7 @@ public class ParserRule extends AltList {
             }
         }
         for (var elem: childs)
-            if (elem instanceof ParserRule) {
-                ((ParserRule)elem).checkNotCovered(pumps);
-            }
+            elem.checkNotCovered(pumps);
     }
 
     public PumpRule1 getBestPump(ParserRule pr) {

@@ -40,7 +40,7 @@ public class Alternative extends Repetitive {
     RealizedRule1 removePump(RealizedRule1 rule) {
         RealizedRule1 result = new RealizedRule1();
         for (var elem : rule.list)
-            if (elem instanceof ParserRule || elem instanceof LexerRule)
+            if (elem instanceof Atom)
                 result.add(elem);
         return result;
     }
@@ -61,7 +61,7 @@ public class Alternative extends Repetitive {
         for (int i=0; i<elements.size(); i++) {
             var elem = elements.get(i);
             var rep = elem.rep;
-            if (elem instanceof LexerRule || elem instanceof ParserRule)
+            if (elem instanceof Atom)
                 resSerie.add(elem);
             else if (elem instanceof Alternative) {
                 var subserie = ((Alternative)elem).setRepOnce().list;
@@ -178,7 +178,7 @@ public class Alternative extends Repetitive {
                 else {
                     rule.add(elem);
                     rule.add(elem);
-                    if (elem instanceof ParserRule) {
+                    if (elem instanceof Atom && ((Atom)elem).cargoParserRule!=null) {
                         Pump pump = new Pump();
                         pump.add(elem);
                         rule.add(pump);
@@ -193,7 +193,7 @@ public class Alternative extends Repetitive {
                 int index3 = 0;
                 RealizedRule1 rule = new RealizedRule1();
                 for (var elem : elements) {
-                    if (elem instanceof LexerRule || elem instanceof ParserRule)
+                    if (elem instanceof Atom)
                         rule.add(elem);
                     else if (elem instanceof  Alternative || elem.getClass()== AltList.class) {
                         var list2 = list3.get(index3);
@@ -236,7 +236,7 @@ public class Alternative extends Repetitive {
         List<ParserRule> prList = new ArrayList<>();
         for (Repetitive sym:elements) {
             List<ParserRule> prSubList;
-            if (sym instanceof ParserRule) {
+            if (sym instanceof Atom && ((Atom)sym).cargoParserRule!=null) {
                 prSubList = null; //nothing to avoid loop recurrence
                 prList.add((ParserRule)sym);
             }

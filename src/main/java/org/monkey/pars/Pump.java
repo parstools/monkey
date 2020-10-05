@@ -9,10 +9,11 @@ import java.util.List;
 
 public class Pump extends Repetitive {
     List<Repetitive> list;
+
     int pumpPRcount() {
         int counter = 0;
         for (var sym: list)
-            if (sym instanceof ParserRule) counter++;
+            if (sym instanceof Atom && ((Atom)sym).cargoParserRule!=null) counter++;
         return counter;
     }
 
