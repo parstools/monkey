@@ -162,7 +162,6 @@ public class ParseManager {
     }
 
     private static Element createEbnf(ANTLRv4Parser.EbnfContext ctx) throws Exception {
-        Ebnf ebnf = new Ebnf();
         Repetitions rep = Repetitions.once;
         if (ctx.getChildCount()>1)
             rep = repFromSuffix((ANTLRv4Parser.BlockSuffixContext)ctx.getChild(1));

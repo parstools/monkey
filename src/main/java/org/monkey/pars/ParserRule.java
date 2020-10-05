@@ -1,10 +1,12 @@
 package org.monkey.pars;
 
+import org.monkey.lexer.Repetitive;
+import org.monkey.lexer.Type;
 import org.monkey.pars.Alternative;
 
 import java.util.List;
 
-public class ParserRule {
+public class ParserRule extends Repetitive {
     List<Alternative> alternatives;
     String name;
     public ParserRule(String name) {
@@ -26,5 +28,10 @@ public class ParserRule {
         }
         s+=";";
         return s;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.ParserRule;
     }
 }
