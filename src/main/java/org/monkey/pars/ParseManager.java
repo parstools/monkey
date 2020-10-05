@@ -2,22 +2,21 @@ package org.monkey.pars;
 
 import org.antlr.parser.antlr4.ANTLRv4Parser;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
-import org.monkey.lexer.Token;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParseManager {
-    private static List<Token> createTerminals(List<ANTLRv4Parser.LexerRuleSpecContext> lexerRules) {
-        List<Token> resultList = new ArrayList<>();
+    private static List<LexerRule> createLexerRules(List<ANTLRv4Parser.LexerRuleSpecContext> lexerRules) {
+        List<LexerRule> resultList = new ArrayList<>();
         for (var rule: lexerRules) {
-            Token token = createTerminal(rule);
+            LexerRule token = createLexerRule(rule);
             resultList.add(token);
         }
         return resultList;
     }
 
-    private static Token createTerminal(ANTLRv4Parser.LexerRuleSpecContext rule) {
+    private static LexerRule createLexerRule(ANTLRv4Parser.LexerRuleSpecContext rule) {
         return null;
     }
 
@@ -33,20 +32,20 @@ public class ParseManager {
     private static ParserRule createParserRule(ANTLRv4Parser.ParserRuleSpecContext ruleCtx) throws Exception {
         String name = getParseRuleName(ruleCtx);
         List<ANTLRv4Parser.AlternativeContext> alternativesCtx = getAlternativesCtx(ruleCtx);
-        List<Alternative>  alternatives = getAlternatives(alternativesCtx);
+        List<Alternative>  alternatives = createAlternatives(alternativesCtx);
         ParserRule pr = new ParserRule(name);
         pr.addAlternatives(alternatives);
         return pr;
     }
 
-    private static List<Alternative> getAlternatives(List<ANTLRv4Parser.AlternativeContext> alternativesCtx) {
+    private static List<Alternative> createAlternatives(List<ANTLRv4Parser.AlternativeContext> alternativesCtx) {
         List<Alternative>  alternatives = new ArrayList<>();
         for (var altCtx: alternativesCtx)
-            alternatives.add(getAlternative(altCtx));
+            alternatives.add(createAlternative(altCtx));
         return alternatives;
     }
 
-    private static Alternative getAlternative(ANTLRv4Parser.AlternativeContext altCtx) {
+    private static Alternative createAlternative(ANTLRv4Parser.AlternativeContext altCtx) {
         Alternative alternative = new Alternative();
         List<ANTLRv4Parser.ElementContext> elementsCtx = getElementsCtx(altCtx);
         return alternative;
