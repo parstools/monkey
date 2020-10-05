@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class ParserRule extends AltList {
-    String name;
+    public String name;
     public ParserRule(String name) {
         this.name = name;
     }

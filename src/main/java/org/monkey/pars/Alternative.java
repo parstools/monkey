@@ -218,6 +218,13 @@ public class Alternative extends Repetitive {
         return null;
     }
 
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: elements) {
+            elem.updateLexerRef(lexerMap);
+        }
+    }
+
     public List<ParserRule> getChildPR() {
         List<ParserRule> prList = new ArrayList<>();
         for (Repetitive sym:elements) {

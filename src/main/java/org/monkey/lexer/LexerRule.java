@@ -1,9 +1,10 @@
 package org.monkey.lexer;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class LexerRule extends Repetitive {
-    String name;
+    public String name;
     List<LexerAlt> alternatives;
 
     public LexerRule(String name) {
@@ -37,5 +38,11 @@ public class LexerRule extends Repetitive {
         int index = LexerManager.generator.nextInt(alternatives.size());
         var alt = alternatives.get(index);
         return alt.realizeString();
+    }
+
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var alt: alternatives) {
+            alt.updateLexerRef(lexerMap);
+        }
     }
 }

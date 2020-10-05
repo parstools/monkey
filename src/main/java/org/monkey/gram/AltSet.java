@@ -1,9 +1,11 @@
 package org.monkey.gram;
 
+import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -15,6 +17,13 @@ public class AltSet extends Repetitive {
     @Override
     public String realizeString() {
         return null;
+    }
+
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: list) {
+            elem.updateLexerRef(lexerMap);
+        }
     }
 
     public void add(Serie alt) {

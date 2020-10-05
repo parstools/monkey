@@ -1,5 +1,6 @@
 package org.monkey.lexer;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class LexerAlt {
@@ -27,5 +28,11 @@ public class LexerAlt {
         for (var element: elements)
             s += element.realizeString();
         return s;
+    }
+
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: elements) {
+            elem.updateLexerRef(lexerMap);
+        }
     }
 }

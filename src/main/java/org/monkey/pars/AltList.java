@@ -1,9 +1,11 @@
 package org.monkey.pars;
 
+import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -33,6 +35,13 @@ public class AltList extends Repetitive {
     @Override
     public String realizeString() {
         return null;
+    }
+
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: alternatives) {
+            elem.updateLexerRef(lexerMap);
+        }
     }
 
     public List<RealizedRule1> makeRealizedRules() {

@@ -1,5 +1,7 @@
 package org.monkey.lexer;
 
+import java.util.HashMap;
+
 public abstract class Repetitive {
     public Repetitions rep;
     public abstract Type getType();// {return Type.repetitive;}
@@ -16,4 +18,5 @@ public abstract class Repetitive {
         else
             return "";
     }
+    public abstract void updateLexerRef(HashMap<String, LexerRule> lexerMap);
 }

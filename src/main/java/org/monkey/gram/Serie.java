@@ -7,6 +7,7 @@ import org.monkey.lexer.Type;
 import org.monkey.pars.RealizeType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -19,6 +20,13 @@ public class Serie extends Repetitive {
     @Override
     public String realizeString() {
         return null;
+    }
+
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: list) {
+            elem.updateLexerRef(lexerMap);
+        }
     }
 
     public List<Nonterminal> getChildNT() {

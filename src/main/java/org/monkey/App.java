@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,6 +32,15 @@ public class App
     static Nonterminal initGram2(MonkeyListener extractor) throws Exception {
         List<LexerRule>  rulesL = ParseManager.createLexerRules(extractor.lexerRules);
         List<ParserRule>  rulesP = ParseManager.createParserRules(extractor.parserRules);
+        HashMap<String, LexerRule> lexerMap = new HashMap<>();
+        HashMap<String, ParserRule> parserMap = new HashMap<>();
+        for (var rule: rulesL)
+            lexerMap.put(rule.name, rule);
+        for (var rule: rulesP)
+            parserMap.put(rule.name, rule);
+        for (var rule: rulesL)
+            rule.updateLexerRef(lexerMap);
+
         for (int i=0; i<rulesL.size(); i++)
             System.out.println(rulesL.get(i).toString());
         Nonterminal e = new Nonterminal("e");

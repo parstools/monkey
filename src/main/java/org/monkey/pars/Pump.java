@@ -1,8 +1,10 @@
 package org.monkey.pars;
 
+import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Pump extends Repetitive {
@@ -22,6 +24,13 @@ public class Pump extends Repetitive {
     @Override
     public String realizeString() {
         return null;
+    }
+
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: list) {
+            elem.updateLexerRef(lexerMap);
+        }
     }
 
     public void add(Repetitive elem) {

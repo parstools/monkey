@@ -1,5 +1,6 @@
 package org.monkey.lexer;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class LexerAltList extends Repetitive {
@@ -40,5 +41,12 @@ public class LexerAltList extends Repetitive {
         for (int j=0; j<count; j++)
             result += s;
         return s;
+    }
+
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: altList) {
+            elem.updateLexerRef(lexerMap);
+        }
     }
 }
