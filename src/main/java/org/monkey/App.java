@@ -42,19 +42,7 @@ public class App
         var left = rulesL.get(5);
         var right= rulesL.get(6);
         var literal =  rulesL.get(0);
-        /*Token plus = new Token("plus", new TokenSimple("+"));
-        Token minus = new Token("minus", new TokenSimple("-"));
-        Token star = new Token("star", new TokenSimple("*"));
-        Token div = new Token("div", new TokenSimple("/"));
 
-        FragmentRange range = new FragmentRange('0','9');
-        Fragment fragment = new Fragment();
-        fragment.add(range);
-        TokenPart part = new TokenPart();
-        part.add(fragment, Repetitions.oneOrMore);
-        Token literal = new Token("literal", part);
-        Token left = new Token("left", new TokenSimple("("));
-        Token right = new Token("right", new TokenSimple(")"));*/
         Serie alt = new Serie();
         Serie subalt;
         alt.add(m, Repetitions.once);
