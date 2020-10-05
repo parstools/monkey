@@ -26,7 +26,7 @@ public class TokenCase extends Repetitive {
     public String toString() {
         if (list.isEmpty()) return "";
         int index = RuleManager.generator.nextInt(list.size());
-        var alt = list.get(index);
+        Repetitive alt = list.get(index);
         return alt.toString();
     }
 }

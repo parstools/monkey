@@ -2,7 +2,6 @@ package org.monkey;
 
 import org.antlr.parser.antlr4.ANTLRv4Lexer;
 import org.antlr.parser.antlr4.ANTLRv4Parser;
-import org.antlr.parser.antlr4.ANTLRv4ParserBaseVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.ParseTree;
@@ -23,15 +22,6 @@ public class App
         InputStream is = System.in;
         if ( inputFile!=null ) is = new FileInputStream(inputFile);
         ANTLRInputStream input = new ANTLRInputStream(is);
-        /*ANTLRv4Lexer lexer = new ANTLRv4Lexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        ANTLRv4Parser parser = new ANTLRv4Parser(tokens);
-        ANTLRv4Parser.GrammarSpecContext context = parser.grammarSpec();
-        MonkeyVisitor visitor = new MonkeyVisitor();
-        Object res = visitor.visitGrammarSpec(context);
-        //
-        parser.addParseListener(new MonkeyListener());
-        ANTLRv4Parser.GrammarSpecContext context = parser.grammarSpec();*/
         ANTLRv4Lexer lexer = new ANTLRv4Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ANTLRv4Parser parser = new ANTLRv4Parser(tokens);
