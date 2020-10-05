@@ -1,6 +1,5 @@
-package org.monkey.pars;
+package org.monkey.lexer;
 
-import org.monkey.lexer.Type;
 import org.monkey.tree.RuleManager;
 
 import java.util.List;

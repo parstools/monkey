@@ -1,4 +1,4 @@
-package org.monkey.pars;
+package org.monkey.lexer;
 
 public abstract class LexerElement {
     public Repetitions rep;

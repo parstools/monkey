@@ -1,6 +1,6 @@
 package org.monkey.tree;
 
-import org.monkey.pars.LexerRule;
+import org.monkey.lexer.LexerRule;
 
 public class TermNode  extends Node {
     public TermNode(LexerRule token) {

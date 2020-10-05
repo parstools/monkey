@@ -1,4 +1,4 @@
-package org.monkey.pars;
+package org.monkey.lexer;
 
 public enum RefKind {
     TokenLiteral,TokenRef, Fragment, RuleRef

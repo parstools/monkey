@@ -1,4 +1,4 @@
-package org.monkey.pars;
+package org.monkey.lexer;
 
 import org.monkey.tree.RuleManager;
 
@@ -13,7 +13,7 @@ public class LexerAtom extends LexerElement {
 
     public String realizeString() {
         int count;
-        if (rep==Repetitions.once || rep==Repetitions.maybe)
+        if (rep== Repetitions.once || rep==Repetitions.maybe)
             count = 1;
         else
             count = 4;

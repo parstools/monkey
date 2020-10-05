@@ -1,4 +1,4 @@
-package org.monkey.pars;
+package org.monkey.lexer;
 
 import java.util.List;
 

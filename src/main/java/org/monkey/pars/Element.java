@@ -1,5 +1,7 @@
 package org.monkey.pars;
 
+import org.monkey.lexer.Repetitions;
+
 public class Element {
     public Repetitions rep;
 

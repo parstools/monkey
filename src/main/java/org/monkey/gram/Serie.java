@@ -1,8 +1,8 @@
 package org.monkey.gram;
 
-import org.monkey.pars.LexerRule;
-import org.monkey.pars.Repetitions;
-import org.monkey.pars.Repetitive;
+import org.monkey.lexer.LexerRule;
+import org.monkey.lexer.Repetitions;
+import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
 import java.util.ArrayList;

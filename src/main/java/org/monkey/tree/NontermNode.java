@@ -2,7 +2,7 @@ package org.monkey.tree;
 
 import org.monkey.gram.*;
 import org.monkey.lexer.Type;
-import org.monkey.pars.LexerRule;
+import org.monkey.lexer.LexerRule;
 
 import java.util.ArrayList;
 import java.util.List;

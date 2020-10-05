@@ -1,6 +1,6 @@
 package org.monkey.gram;
 
-import org.monkey.pars.Repetitive;
+import org.monkey.lexer.Repetitive;
 
 import java.util.ArrayList;
 import java.util.List;
