@@ -226,11 +226,6 @@ public class Alternative extends Repetitive {
         }
     }
 
-    @Override
-    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
-
-    }
-
     public List<ParserRule> getChildPR() {
         List<ParserRule> prList = new ArrayList<>();
         for (Repetitive sym:elements) {

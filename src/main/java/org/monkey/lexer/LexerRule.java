@@ -48,9 +48,4 @@ public class LexerRule extends Repetitive {
             alt.updateLexerRef(lexerMap);
         }
     }
-
-    @Override
-    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
-
-    }
 }

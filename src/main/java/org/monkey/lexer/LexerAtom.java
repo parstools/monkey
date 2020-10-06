@@ -44,11 +44,6 @@ public class LexerAtom extends Repetitive {
                 cargoLexerRule = lexerMap.get(cargo);
     }
 
-    @Override
-    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
-
-    }
-
     private static String removeQuotes(String cargo) {
         return cargo.substring(1, cargo.length()-1);
     }

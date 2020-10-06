@@ -22,8 +22,4 @@ public abstract class Repetitive {
             return "";
     }
     public abstract void updateLexerRef(HashMap<String, LexerRule> lexerMap);
-
-//    public abstract void updateParserRef(HashMap<String, ParserRule> parserMap);
-
-    public abstract void updateNtRef(HashMap<String, Nonterminal> parserMap);
 }

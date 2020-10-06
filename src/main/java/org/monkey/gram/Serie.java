@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class Serie extends Repetitive {
+public class Serie extends Repetitive implements NtUpdatable {
     public List<Repetitive> list = new ArrayList<>();
     protected List<Repetitions> reps = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class Serie extends Repetitive {
     @Override
     public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
         for (var elem: list) {
-            elem.updateNtRef(parserMap);
+            ((NtUpdatable)elem).updateNtRef(parserMap);
         }
     }
 

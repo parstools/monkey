@@ -52,9 +52,5 @@ public class LexerAltList extends Repetitive {
             elem.updateLexerRef(lexerMap);
         }
     }
-
-    @Override
-    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
-
-    }
+    
 }

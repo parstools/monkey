@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class AltSet extends Repetitive {
+public class AltSet extends Repetitive implements NtUpdatable{
     protected List<Serie> list = new ArrayList<>();
 
     public Type getType() {return Type.altList;}
