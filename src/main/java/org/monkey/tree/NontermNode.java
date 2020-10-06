@@ -3,6 +3,7 @@ package org.monkey.tree;
 import org.monkey.gram.*;
 import org.monkey.lexer.Type;
 import org.monkey.lexer.LexerRule;
+import org.monkey.pars.Atom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +61,14 @@ public class NontermNode extends Node {
         choosedRule.useCount++;
         choosedRule.nodes.add(this);
         for (var elem: choosedRule.list) {
-            if (elem.getType()== Type.nonterminal) {
-                NontermNode node = new NontermNode((Nonterminal) elem);
+            if (elem.getClass()!=Atom.class) continue;
+            Atom atom = (Atom)elem;
+            if (atom.cargoNtRule!=null) {
+                NontermNode node = new NontermNode(atom.cargoNtRule);
                 childs.add(node);
             }
-            else if (elem.getType()==Type.LexerRule) {
-                TermNode node = new TermNode((LexerRule) elem);
+            else if (atom.cargoLexerRule!=null) {
+                TermNode node = new TermNode(atom.cargoLexerRule);
                 childs.add(node);
             }
         }

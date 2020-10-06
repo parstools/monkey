@@ -1,5 +1,6 @@
 package org.monkey.pars;
 
+import org.monkey.gram.Nonterminal;
 import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitions;
 import org.monkey.lexer.Repetitive;
@@ -8,7 +9,7 @@ import org.monkey.lexer.Type;
 import java.util.*;
 
 public class Alternative extends Repetitive {
-    List<Repetitive> elements;
+    public List<Repetitive> elements;
 
     @Override
     public String toString() {
@@ -178,7 +179,7 @@ public class Alternative extends Repetitive {
                 else {
                     rule.add(elem);
                     rule.add(elem);
-                    if (elem instanceof Atom && ((Atom)elem).cargoParserRule!=null) {
+                    if (elem instanceof Atom && ((Atom)elem).cargoNtRule!=null) {
                         Pump pump = new Pump();
                         pump.add(elem);
                         rule.add(pump);
@@ -226,17 +227,15 @@ public class Alternative extends Repetitive {
     }
 
     @Override
-    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
-        for (var elem: elements) {
-            elem.updateParserRef(parserMap);
-        }
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+
     }
 
     public List<ParserRule> getChildPR() {
         List<ParserRule> prList = new ArrayList<>();
         for (Repetitive sym:elements) {
             List<ParserRule> prSubList;
-            if (sym instanceof Atom && ((Atom)sym).cargoParserRule!=null) {
+            if (sym instanceof Atom && ((Atom)sym).cargoNtRule!=null) {
                 prSubList = null; //nothing to avoid loop recurrence
                 prList.add((ParserRule)sym);
             }

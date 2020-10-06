@@ -1,5 +1,6 @@
 package org.monkey.pars;
 
+import org.monkey.gram.Nonterminal;
 import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.RefKind;
 import org.monkey.lexer.Repetitive;
@@ -11,7 +12,7 @@ public class Atom extends Repetitive {
     public String cargo;
     public RefKind kind;
     public LexerRule cargoLexerRule = null;
-    public ParserRule cargoParserRule = null;
+    public Nonterminal cargoNtRule = null;
 
     @Override
     public String toString() {
@@ -35,10 +36,17 @@ public class Atom extends Repetitive {
                 cargoLexerRule = lexerMap.get(cargo);
     }
 
-    @Override
+    /*@Override
     public void updateParserRef(HashMap<String, ParserRule> parserMap) {
         if (kind==RefKind.RuleRef)
             if (parserMap.containsKey(cargo))
                 cargoParserRule = parserMap.get(cargo);
+    }*/
+
+    @Override
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+        if (kind==RefKind.RuleRef)
+            if (parserMap.containsKey(cargo))
+                cargoNtRule = parserMap.get(cargo);
     }
 }

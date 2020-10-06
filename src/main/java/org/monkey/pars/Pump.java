@@ -1,5 +1,6 @@
 package org.monkey.pars;
 
+import org.monkey.gram.Nonterminal;
 import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
@@ -13,7 +14,7 @@ public class Pump extends Repetitive {
     int pumpPRcount() {
         int counter = 0;
         for (var sym: list)
-            if (sym instanceof Atom && ((Atom)sym).cargoParserRule!=null) counter++;
+            if (sym instanceof Atom && ((Atom)sym).cargoNtRule!=null) counter++;
         return counter;
     }
 
@@ -35,9 +36,9 @@ public class Pump extends Repetitive {
     }
 
     @Override
-    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
         for (var elem: list) {
-            elem.updateParserRef(parserMap);
+            elem.updateNtRef(parserMap);
         }
     }
 

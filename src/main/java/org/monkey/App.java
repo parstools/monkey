@@ -5,10 +5,7 @@ import org.antlr.parser.antlr4.ANTLRv4Parser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.monkey.gram.AltSet;
-import org.monkey.gram.Nonterminal;
-import org.monkey.gram.PumpRule;
-import org.monkey.gram.Serie;
+import org.monkey.gram.*;
 import org.monkey.lexer.*;
 import org.monkey.pars.*;
 import org.monkey.tree.NontermNode;
@@ -32,28 +29,41 @@ public class App
     static Nonterminal initGram2(MonkeyListener extractor) throws Exception {
         List<LexerRule>  rulesL = ParseManager.createLexerRules(extractor.lexerRules);
         List<ParserRule>  rulesP = ParseManager.createParserRules(extractor.parserRules);
-        HashMap<String, LexerRule> lexerMap = new HashMap<>();
-        HashMap<String, ParserRule> parserMap = new HashMap<>();
-        for (var rule: rulesL)
-            lexerMap.put(rule.name, rule);
-        for (var rule: rulesP)
-            parserMap.put(rule.name, rule);
-        for (var rule: rulesL)
-            rule.updateLexerRef(lexerMap);
-        for (var rule: rulesP) {
-            rule.updateLexerRef(lexerMap);
-            rule.updateParserRef(parserMap);
-        }
 
+/*
         for (int i=0; i<rulesL.size(); i++)
-            System.out.println(rulesL.get(i).toString());
-        Nonterminal e = new Nonterminal("e");
+            System.out.println(rulesL.get(i).toString());*/
+        /*Nonterminal e = new Nonterminal("e");
         Nonterminal m = new Nonterminal("m");
-        Nonterminal p = new Nonterminal("p");
+        Nonterminal p = new Nonterminal("p");*/
 
         ParserRule e1 = rulesP.get(0);
         ParserRule m1 = rulesP.get(1);
         ParserRule p1 = rulesP.get(2);
+
+        List<Nonterminal>  rulesPI = new ArrayList<>();
+        for (var pr: rulesP) {
+            rulesPI.add(Importer.imp(pr));
+        }
+
+        /*Nonterminal e = Importer.imp(e1);
+        Nonterminal m = Importer.imp(m1);
+        Nonterminal p = Importer.imp(p1);
+*/
+        HashMap<String, LexerRule> lexerMap = new HashMap<>();
+        HashMap<String, Nonterminal> parserMap = new HashMap<>();
+
+        for (var rule: rulesL)
+            lexerMap.put(rule.name, rule);
+        for (var nt: rulesPI)
+            parserMap.put(nt.name, nt);
+        for (var rule: rulesL)
+            rule.updateLexerRef(lexerMap);
+        for (var rule: rulesPI) {
+            rule.updateLexerRef(lexerMap);
+            rule.updateNtRef(parserMap);
+        }
+
         var plus = rulesL.get(1);
         var minus = rulesL.get(2);
         var star = rulesL.get(3);
@@ -62,6 +72,7 @@ public class App
         var right= rulesL.get(6);
         var literal =  rulesL.get(0);
 
+        /*
         Serie alt = new Serie();
         Serie subalt;
         alt.add(m, Repetitions.once);
@@ -102,8 +113,8 @@ public class App
         alt.add(e, Repetitions.once);
         alt.add(right, Repetitions.once);
         p.add(alt);
-        //p.realize();
-        return e;
+        //p.realize();*/
+        return rulesPI.get(0);
     }
 
     public static void main(String[] args) {

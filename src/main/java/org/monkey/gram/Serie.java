@@ -4,6 +4,7 @@ import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitions;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
+import org.monkey.pars.Atom;
 import org.monkey.pars.ParserRule;
 import org.monkey.pars.RealizeType;
 
@@ -31,9 +32,9 @@ public class Serie extends Repetitive {
     }
 
     @Override
-    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
         for (var elem: list) {
-            elem.updateParserRef(parserMap);
+            elem.updateNtRef(parserMap);
         }
     }
 
@@ -41,9 +42,9 @@ public class Serie extends Repetitive {
         List<Nonterminal> ntList = new ArrayList<>();
         for (Repetitive sym:list) {
             List<Nonterminal> ntSubList;
-            if (sym instanceof Nonterminal) {
+            if (sym.getClass() == Atom.class && ((Atom) sym).cargoNtRule!=null) {
                 ntSubList = null; //nothing to avoid loop recurrence
-                ntList.add((Nonterminal)sym);
+                ntList.add(((Atom) sym).cargoNtRule);
             }
             else if (sym.getClass()== AltSet.class)
                 ntSubList = ((AltSet)sym).getChildNT();
@@ -73,7 +74,7 @@ public class Serie extends Repetitive {
     RealizedRule removePump(RealizedRule rule) {
         RealizedRule result = new RealizedRule();
         for (var elem : rule.list)
-            if (elem instanceof Nonterminal || elem instanceof LexerRule)
+            if (elem.getClass()==Atom.class)
                 result.add(elem);
         return result;
     }
@@ -128,7 +129,7 @@ public class Serie extends Repetitive {
                 int index3 = 0;
                 RealizedRule rule = new RealizedRule();
                 for (var elem : list) {
-                    if (elem instanceof LexerRule || elem instanceof Nonterminal)
+                    if (elem.getClass()==Atom.class)
                         rule.add(elem);
                     else if (elem instanceof  Serie || elem.getClass()== AltSet.class) {
                         var list2 = list3.get(index3);
@@ -224,7 +225,7 @@ public class Serie extends Repetitive {
         for (int i=0; i<list.size(); i++) {
             var elem = list.get(i);
             var rep = reps.get(i);
-            if (elem instanceof LexerRule || elem instanceof Nonterminal)
+            if (elem.getClass()==Atom.class)
                 resSerie.add(elem, Repetitions.once);
             else if (elem instanceof Serie) {
                 var subserie = ((Serie)elem).setRepOnce().list;

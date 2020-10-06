@@ -1,5 +1,6 @@
 package org.monkey.lexer;
 
+import org.monkey.gram.Nonterminal;
 import org.monkey.pars.ParserRule;
 
 import java.util.HashMap;
@@ -49,9 +50,7 @@ public class LexerRule extends Repetitive {
     }
 
     @Override
-    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
-        for (var alt: alternatives) {
-            alt.updateParserRef(parserMap);
-        }
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+
     }
 }

@@ -45,12 +45,12 @@ public class ParserRule extends AltList {
         HashMap<ParserRule,PrPumps> PrPumps = new HashMap<>();
         for (var rule: realizedRules) {
             for (var sym : rule.list) {
-                if (sym instanceof Atom && ((Atom)sym).cargoParserRule!=null) {
+                if (sym instanceof Atom && ((Atom)sym).cargoNtRule!=null) {
                     if (!PrPumps.containsKey(sym))
                         PrPumps.put((ParserRule)sym, new PrPumps(sym));
                 } else if (sym instanceof Pump) {
                     for (var subsym : ((Pump)sym).list) {
-                        if (subsym instanceof Atom && ((Atom)subsym).cargoParserRule!=null)
+                        if (subsym instanceof Atom && ((Atom)subsym).cargoNtRule!=null)
                         {
                             if (!PrPumps.containsKey(subsym))
                                 PrPumps.put((ParserRule)subsym, new PrPumps(subsym));

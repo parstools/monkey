@@ -1,13 +1,14 @@
 package org.monkey.gram;
 
 import org.monkey.lexer.Type;
+import org.monkey.pars.Atom;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Nonterminal extends AltSet {
-    String name;
+    public String name;
     public Nonterminal(String name) {
         this.name = name;
     }
@@ -19,9 +20,12 @@ public class Nonterminal extends AltSet {
         HashMap<Nonterminal,NtPumps> ntPumps = new HashMap<>();
         for (var rule: realizedRules) {
             for (var sym : rule.list) {
-                if (sym instanceof Nonterminal) {
-                    if (!ntPumps.containsKey(sym))
-                        ntPumps.put((Nonterminal)sym, new NtPumps(sym));
+                if (sym.getClass() == Atom.class) {
+                    Nonterminal nt = ((Atom)sym).cargoNtRule;
+                    if (nt!=null) {
+                        if (!ntPumps.containsKey(nt))
+                            ntPumps.put(nt, new NtPumps(nt));
+                    }
                 } else if (sym instanceof Serie) {
                     for (var subsym : ((Serie)sym).list) {
                         if (subsym instanceof Nonterminal)

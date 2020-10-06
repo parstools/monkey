@@ -1,6 +1,7 @@
 package org.monkey.lexer;
 
 import org.antlr.v4.runtime.Lexer;
+import org.monkey.gram.Nonterminal;
 import org.monkey.pars.ParserRule;
 
 import java.util.HashMap;
@@ -44,10 +45,8 @@ public class LexerAtom extends Repetitive {
     }
 
     @Override
-    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
-        if (kind==RefKind.RuleRef)
-            if (parserMap.containsKey(cargo))
-                cargoParserRule = parserMap.get(cargo);
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+
     }
 
     private static String removeQuotes(String cargo) {

@@ -37,10 +37,4 @@ public class LexerAlt {
             elem.updateLexerRef(lexerMap);
         }
     }
-
-    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
-        for (var elem: elements) {
-            elem.updateParserRef(parserMap);
-        }
-    }
 }

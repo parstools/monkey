@@ -28,9 +28,9 @@ public class AltSet extends Repetitive {
     }
 
     @Override
-    public void updateParserRef(HashMap<String, ParserRule> parserMap) {
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
         for (var elem: list) {
-            elem.updateParserRef(parserMap);
+            elem.updateNtRef(parserMap);
         }
     }
 
