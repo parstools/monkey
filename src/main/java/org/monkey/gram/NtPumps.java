@@ -9,8 +9,8 @@ public class NtPumps {
     Nonterminal nt;
     List<Serie> pumps = new ArrayList<>();
 
-    public NtPumps(Repetitive sym) {
-        this.nt = (Nonterminal)sym;
+    public NtPumps(Nonterminal sym) {
+        this.nt = sym;
     }
 
     void addPump(Serie pump) {

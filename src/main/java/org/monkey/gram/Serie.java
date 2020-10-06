@@ -112,7 +112,7 @@ public class Serie extends Repetitive implements NtUpdatable {
                 else {
                     rule.add(elem);
                     rule.add(elem);
-                    if (elem instanceof Nonterminal) {
+                    if (elem instanceof Atom && ((Atom)elem).cargoNtRule!=null) {
                         Serie pump = new Serie();
                         pump.add(elem, Repetitions.once);
                         rule.add(pump);
@@ -252,14 +252,14 @@ public class Serie extends Repetitive implements NtUpdatable {
 
     boolean pumpContain(Nonterminal nt) {
         for (var sym: list)
-            if (sym==nt) return true;
+            if (sym instanceof Atom && ((Atom)sym).cargoNtRule==nt) return true;
         return false;
     }
 
     int pumpNTcount() {
         int counter = 0;
         for (var sym: list)
-            if (sym instanceof Nonterminal) counter++;
+            if (sym instanceof Atom && ((Atom)sym).cargoNtRule!=null) counter++;
         return counter;
     }
 

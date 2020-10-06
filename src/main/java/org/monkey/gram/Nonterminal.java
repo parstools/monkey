@@ -1,13 +1,16 @@
 package org.monkey.gram;
 
+import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Type;
 import org.monkey.pars.Atom;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
-public class Nonterminal extends AltSet {
+public class Nonterminal implements NtUpdatable{
+    protected List<Serie> list = new ArrayList<>();
     public String name;
     public Nonterminal(String name) {
         this.name = name;
@@ -28,17 +31,27 @@ public class Nonterminal extends AltSet {
                     }
                 } else if (sym instanceof Serie) {
                     for (var subsym : ((Serie)sym).list) {
-                        if (subsym instanceof Nonterminal)
+                        if (subsym.getClass()==Atom.class)
                         {
-                            if (!ntPumps.containsKey(subsym))
-                                ntPumps.put((Nonterminal)subsym, new NtPumps(subsym));
-                            ntPumps.get(subsym).addPump((Serie)sym);
+                            Nonterminal nt = ((Atom)subsym).cargoNtRule;
+                            if (!ntPumps.containsKey(nt))
+                                ntPumps.put(nt, new NtPumps(nt));
+                            ntPumps.get(nt).addPump((Serie)sym);
                         }
                     }
                 }
             }
         }
         return ntPumps;
+    }
+
+    public List<RealizedRule> makeRealizedRules() {
+        List<RealizedRule> rules = new ArrayList<>();
+        for (var alt : list){
+            var subrules = alt.makeRealizedRules();
+            rules.addAll(subrules);
+        }
+        return rules;
     }
 
     public void realize() {
@@ -142,5 +155,32 @@ public class Nonterminal extends AltSet {
             return pump.list.size()<choosedPump.list.size();
         else
             return punpCount<punpChoosedCount;
+    }
+
+    public List<Nonterminal> getChildNT() {
+        List<Nonterminal> ntList = new ArrayList<>();
+        for (Serie alt:list) {
+            List<Nonterminal> ntSubList = alt.getChildNT();
+            ntList.addAll(ntSubList);
+        }
+        ntList = new ArrayList<>(new HashSet<>(ntList));//remove duplicates
+        return ntList;
+    }
+
+    public void add(Serie alt) {
+        list.add(alt);
+    }
+
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: list) {
+            elem.updateLexerRef(lexerMap);
+        }
+    }
+
+    @Override
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+        for (var elem: list) {
+            elem.updateNtRef(parserMap);
+        }
     }
 }
