@@ -4,7 +4,8 @@ import org.monkey.lexer.Type;
 
 import java.util.List;
 
-public class ParserRule extends AltList {
+public class ParserRule {
+    public List<Alternative> alternatives;
     public String name;
     public ParserRule(String name) {
         this.name = name;
@@ -25,10 +26,5 @@ public class ParserRule extends AltList {
         }
         s+=";";
         return s;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.ParserRule;
     }
 }
