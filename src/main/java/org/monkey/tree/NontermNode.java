@@ -16,9 +16,10 @@ public class NontermNode extends Node {
 
     int actualAlt;
     int pumpCount;
+    Nonterminal nt;
 
     public NontermNode(Nonterminal nonterminal) {
-        this.ntORt = nonterminal;
+        this.nt = nonterminal;
     }
 
     private static boolean better(RealizedRule rule, RealizedRule choosedRule) {
@@ -41,7 +42,6 @@ public class NontermNode extends Node {
         //int altCount = nonterminal.getAltCount();
         //int realRepCount = nonterminal.getRealRepCount();
         int choosedIndex = 0;
-        Nonterminal nt = (Nonterminal)ntORt;
         choosedRule = nt.realizedRules.get(choosedIndex);
         for (int i=1; i<nt.realizedRules.size(); i++) {
             RealizedRule rule = nt.realizedRules.get(i);
@@ -76,7 +76,7 @@ public class NontermNode extends Node {
             }
         }
         for (var elem: childs)
-            if (elem.ntORt.getType()==Type.nonterminal)
+            if (elem.getClass()==NontermNode.class)
                 ((NontermNode)elem).buildTree(h+1);
     }
 
@@ -95,19 +95,22 @@ public class NontermNode extends Node {
         for (int k=0; k<pr.count; k++)
         for (int i=0; i<pumpSize; i++) {
             var elem = pump.list.get(i);
-            if (elem.getType()==Type.nonterminal) {
-                NontermNode node = new NontermNode((Nonterminal) elem);
-                childs.add(index+pumpSize*k+i, node);
-            }
-            else if (elem.getType()==Type.LexerRule) {
-                TermNode node = new TermNode((LexerRule) elem);
-                childs.add(index+pumpSize*k+i, node);
+            if (elem.getClass()==Atom.class) {
+                Atom atom = (Atom)elem;
+                if (atom.cargoNtRule!=null) {
+                    NontermNode node = new NontermNode(atom.cargoNtRule);
+                    childs.add(index+pumpSize*k+i, node);
+                }
+                else if (atom.cargoLexerRule!=null) {
+                    TermNode node = new TermNode(atom.cargoLexerRule);
+                    childs.add(index+pumpSize*k+i, node);
+                }
             }
         }
         for (int k=0; k<pr.count; k++)
         for (int i=0; i<pumpSize; i++) {
             Node node = childs.get(index+pumpSize*k+i);
-            if (node.ntORt.getType()==Type.nonterminal)
+            if (node.getClass()==NontermNode.class)
                 ((NontermNode)node).buildTree(h+1);
         }
     }

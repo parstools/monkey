@@ -3,13 +3,13 @@ package org.monkey.tree;
 import org.monkey.lexer.LexerRule;
 
 public class TermNode  extends Node {
+    LexerRule term;
     public TermNode(LexerRule token) {
-        this.ntORt = token;
+        this.term = token;
     }
 
     @Override
     void print() {
-        LexerRule t = (LexerRule)ntORt;
-        System.out.print(t.realizeString()+" ");
+        System.out.print(term.realizeString()+" ");
     }
 }

@@ -3,7 +3,7 @@ package org.monkey.lexer;
 import java.util.HashMap;
 import java.util.List;
 
-public class LexerRule extends Repetitive {
+public class LexerRule {
     public String name;
     List<LexerAlt> alternatives;
 
@@ -26,11 +26,6 @@ public class LexerRule extends Repetitive {
         }
         s+=";";
         return s;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.LexerRule;
     }
 
     public String realizeString() {
