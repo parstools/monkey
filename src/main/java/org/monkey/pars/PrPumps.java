@@ -1,7 +1,5 @@
 package org.monkey.pars;
 
-import org.monkey.gram.Nonterminal;
-import org.monkey.gram.Serie;
 import org.monkey.lexer.Repetitive;
 
 import java.util.ArrayList;

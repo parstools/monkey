@@ -1,7 +1,5 @@
 package org.monkey.lexer;
 
-import org.antlr.v4.runtime.Lexer;
-import org.monkey.gram.Nonterminal;
 import org.monkey.pars.ParserRule;
 
 import java.util.HashMap;

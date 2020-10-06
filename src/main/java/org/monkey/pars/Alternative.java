@@ -1,6 +1,5 @@
 package org.monkey.pars;
 
-import org.monkey.gram.Nonterminal;
 import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitions;
 import org.monkey.lexer.Repetitive;

@@ -1,8 +1,5 @@
 package org.monkey.lexer;
 
-import org.monkey.gram.Nonterminal;
-import org.monkey.pars.ParserRule;
-
 import java.util.HashMap;
 
 public abstract class Repetitive {

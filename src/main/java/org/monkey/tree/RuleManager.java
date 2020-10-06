@@ -15,7 +15,6 @@ package org.monkey.tree;
 import org.monkey.gram.PumpRule;
 
 import java.util.List;
-import java.util.Random;
 
 public class RuleManager {
     public static void expandPumps(List<PumpRule> pumps) {
