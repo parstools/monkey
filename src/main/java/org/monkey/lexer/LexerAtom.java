@@ -1,10 +1,12 @@
 package org.monkey.lexer;
 
+import org.monkey.gram.Nonterminal;
+import org.monkey.gram.NtUpdatable;
 import org.monkey.pars.ParserRule;
 
 import java.util.HashMap;
 
-public class LexerAtom extends Repetitive {
+public class LexerAtom extends RepetIn implements NtUpdatable {
     public String cargo;
     public RefKind kind;
     public LexerRule cargoLexerRule = null;
@@ -36,6 +38,11 @@ public class LexerAtom extends Repetitive {
     }
 
     @Override
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+        //empty
+    }
+
+    @Override
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
         if (kind==RefKind.TokenRef)
             if (lexerMap.containsKey(cargo))
@@ -55,10 +62,5 @@ public class LexerAtom extends Repetitive {
         char to = cargo.charAt(index*2+2);
         index = LexerManager.generator.nextInt(to-from+1);
         return (char)(from+index);
-    }
-
-    @Override
-    public Type getType() {
-        return Type.LexerAtom;
     }
 }

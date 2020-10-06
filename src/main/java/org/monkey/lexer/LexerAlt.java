@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LexerAlt {
-    List<Repetitive> elements;
+    List<RepetIn> elements;
 
-    public void addLexerElements(List<Repetitive> elements) {
+    public void addLexerElements(List<RepetIn> elements) {
         this.elements = elements;
     }
 
@@ -30,9 +30,4 @@ public class LexerAlt {
         return s;
     }
 
-    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
-        for (var elem: elements) {
-            elem.updateLexerRef(lexerMap);
-        }
-    }
 }

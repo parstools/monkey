@@ -2,12 +2,8 @@ package org.monkey.lexer;
 
 import java.util.HashMap;
 
-public abstract class Repetitive {
+public abstract class RepetIn {
     public Repetitions rep;
-    public abstract Type getType();// {return Type.repetitive;}
-
-    public abstract String realizeString();
-
     protected String suffixToString() {
         if (rep==Repetitions.maybe)
             return "?";
@@ -18,5 +14,6 @@ public abstract class Repetitive {
         else
             return "";
     }
-    public abstract void updateLexerRef(HashMap<String, LexerRule> lexerMap);
+
+    public abstract String realizeString();
 }

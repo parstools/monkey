@@ -1,7 +1,6 @@
 package org.monkey.gram;
 
 import org.monkey.lexer.LexerRule;
-import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
 import java.util.ArrayList;
@@ -9,15 +8,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class AltSet extends Repetitive implements NtUpdatable{
+public class AltSet implements NtUpdatable, RepetOut{
     protected List<Serie> list = new ArrayList<>();
-
-    public Type getType() {return Type.altList;}
-
-    @Override
-    public String realizeString() {
-        return null;
-    }
 
     @Override
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {

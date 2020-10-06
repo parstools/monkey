@@ -1,16 +1,13 @@
 package org.monkey.pars;
 
 import org.monkey.gram.RealizeType;
-import org.monkey.lexer.LexerRule;
-import org.monkey.lexer.Repetitions;
-import org.monkey.lexer.Repetitive;
-import org.monkey.lexer.Type;
+import org.monkey.lexer.*;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class Alternative extends Repetitive {
-    public List<Repetitive> elements;
+public class Alternative extends RepetIn {
+    public List<RepetIn> elements;
 
     @Override
     public String toString() {
@@ -25,7 +22,7 @@ public class Alternative extends Repetitive {
         return s;
     }
 
-    public void addElements(List<Repetitive> elements) {
+    public void addElements(List<RepetIn> elements) {
         this.elements = elements;
     }
 
@@ -40,19 +37,7 @@ public class Alternative extends Repetitive {
     }
 
     @Override
-    public Type getType() {
-        return Type.Alternative;
-    }
-
-    @Override
     public String realizeString() {
         return null;
-    }
-
-    @Override
-    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
-        for (var elem: elements) {
-            elem.updateLexerRef(lexerMap);
-        }
     }
 }

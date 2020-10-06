@@ -17,14 +17,14 @@ public class LexerRule {
 
     @Override
     public String toString() {
-        String s = name+": ";
+        String s = name + ": ";
         boolean first = true;
-        for (var alt:alternatives) {
-            if (!first)  s+= " |";
+        for (var alt : alternatives) {
+            if (!first) s += " |";
             first = false;
-            s+=alt.toString();
+            s += alt.toString();
         }
-        s+=";";
+        s += ";";
         return s;
     }
 
@@ -33,11 +33,5 @@ public class LexerRule {
         int index = LexerManager.generator.nextInt(alternatives.size());
         var alt = alternatives.get(index);
         return alt.realizeString();
-    }
-
-    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
-        for (var alt: alternatives) {
-            alt.updateLexerRef(lexerMap);
-        }
     }
 }

@@ -1,13 +1,13 @@
 package org.monkey.gram;
 
-import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
+import org.monkey.pars.Atom;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RealizedRule {
-    public List<Repetitive> list = new ArrayList<>();
+    public List<RepetOut> list = new ArrayList<>();
     public int useCount = 0;
     public int ntCount = 0;
     public List<Object> nodes = new ArrayList<>();
@@ -16,18 +16,18 @@ public class RealizedRule {
         return list.size();
     }
 
-    public RealizedRule(List<Repetitive> list) {
+    public RealizedRule(List<RepetOut> list) {
         this.list.addAll(list);
     }
 
     public RealizedRule() {
     }
 
-    public void add(Repetitive elem) {
+    public void add(RepetOut elem) {
         list.add(elem);
     }
 
-    public void addAll(List<Repetitive> list1) {
+    public void addAll(List<RepetOut> list1) {
         this.list.addAll(list1);
     }
 
@@ -38,6 +38,7 @@ public class RealizedRule {
     public void computeNTcount() {
         ntCount = 0;
         for (var elem: list)
-            if (elem.getType()== Type.nonterminal) ntCount++;
+            if (elem.getClass()==Atom.class && ((Atom)elem).cargoNtRule!=null)
+                ntCount++;
     }
 }

@@ -3,7 +3,7 @@ package org.monkey.lexer;
 import java.util.HashMap;
 import java.util.List;
 
-public class LexerAltList extends Repetitive {
+public class LexerAltList extends RepetIn {
     List<LexerAlt> altList;
 
     public void addAlts(List<LexerAlt> altList) {
@@ -22,11 +22,6 @@ public class LexerAltList extends Repetitive {
         return s+")"+suffixToString();
     }
 
-    @Override
-    public Type getType() {
-        return Type.LexerAltList;
-    }
-
     public String realizeString() {
         if (altList.isEmpty()) return "";
         int index = LexerManager.generator.nextInt(altList.size());
@@ -41,13 +36,6 @@ public class LexerAltList extends Repetitive {
         for (int j=0; j<count; j++)
             result += s;
         return s;
-    }
-
-    @Override
-    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
-        for (var elem: altList) {
-            elem.updateLexerRef(lexerMap);
-        }
     }
 
 }

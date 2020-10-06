@@ -71,14 +71,14 @@ public class ParseManager {
     private static LexerAlt createLexerAlt(ANTLRv4Parser.LexerAltContext altCtx) {
         LexerAlt alternative = new LexerAlt();
         List<ANTLRv4Parser.LexerElementContext> elementsCtx = getLexerElementsCtx(altCtx);
-        List<Repetitive> elements = createLexerElements(elementsCtx);
+        List<RepetIn> elements = createLexerElements(elementsCtx);
         alternative.addLexerElements(elements);
         return alternative;
     }
 
-    private static List<Repetitive> createLexerElements(List<ANTLRv4Parser.LexerElementContext> elementsCtx) {
+    private static List<RepetIn> createLexerElements(List<ANTLRv4Parser.LexerElementContext> elementsCtx) {
         if (elementsCtx==null) return null;
-        List<Repetitive> elements = new ArrayList<>();
+        List<RepetIn> elements = new ArrayList<>();
         for (var ctx: elementsCtx)
             elements.add(createLexerElement(ctx));
         return elements;
@@ -100,20 +100,20 @@ public class ParseManager {
     private static Alternative createAlternative(ANTLRv4Parser.AlternativeContext altCtx) throws Exception {
         Alternative alternative = new Alternative();
         List<ANTLRv4Parser.ElementContext> elementsCtx = getElementsCtx(altCtx);
-        List<Repetitive> elements = createElements(elementsCtx);
+        List<RepetIn> elements = createElements(elementsCtx);
         alternative.addElements(elements);
         return alternative;
     }
 
-    private static List<Repetitive> createElements(List<ANTLRv4Parser.ElementContext> elementsCtx) throws Exception {
+    private static List<RepetIn> createElements(List<ANTLRv4Parser.ElementContext> elementsCtx) throws Exception {
         if (elementsCtx==null) return null;
-        List<Repetitive>  elements = new ArrayList<>();
+        List<RepetIn>  elements = new ArrayList<>();
         for (var ctx: elementsCtx)
             elements.add(createElement(ctx));
         return elements;
     }
 
-    private static Repetitive createLexerElement(ANTLRv4Parser.LexerElementContext ctx) {
+    private static RepetIn createLexerElement(ANTLRv4Parser.LexerElementContext ctx) {
         var childCtx = ctx.getChild(0);
         if (childCtx instanceof ANTLRv4Parser.LexerAtomContext) {
             Repetitions rep = Repetitions.once;
@@ -129,7 +129,7 @@ public class ParseManager {
         } else throw new ParseException("not supported element Type "+childCtx.getClass().toString());
     }
 
-    private static Repetitive createLexerBlock(ANTLRv4Parser.LexerBlockContext ctx, Repetitions rep) {
+    private static RepetIn createLexerBlock(ANTLRv4Parser.LexerBlockContext ctx, Repetitions rep) {
         for (var el: ctx.children) {
             if (el instanceof ANTLRv4Parser.LexerAltListContext) {
                 LexerAltList block = createLexerAltList((ANTLRv4Parser.LexerAltListContext) el);
@@ -148,7 +148,7 @@ public class ParseManager {
         return result;
     }
 
-    private static Repetitive createElement(ANTLRv4Parser.ElementContext ctx) throws Exception {
+    private static RepetIn createElement(ANTLRv4Parser.ElementContext ctx) throws Exception {
             var childCtx = ctx.getChild(0);
             if (childCtx instanceof ANTLRv4Parser.AtomContext) {
                 Repetitions rep = Repetitions.once;
@@ -161,7 +161,7 @@ public class ParseManager {
             } else throw new ParseException("not supported element Type "+childCtx.getClass().toString());
     }
 
-    private static Repetitive createEbnf(ANTLRv4Parser.EbnfContext ctx) throws Exception {
+    private static RepetIn createEbnf(ANTLRv4Parser.EbnfContext ctx) throws Exception {
         Repetitions rep = Repetitions.once;
         if (ctx.getChildCount()>1)
             rep = repFromSuffix((ANTLRv4Parser.BlockSuffixContext)ctx.getChild(1));
@@ -204,7 +204,7 @@ public class ParseManager {
         return atom;
     }
 
-    private static Repetitive createAtom(ANTLRv4Parser.AtomContext ctx, Repetitions rep) {
+    private static RepetIn createAtom(ANTLRv4Parser.AtomContext ctx, Repetitions rep) {
         Atom atom = new Atom();
         var childCtx = ctx.getChild(0);
         if (childCtx instanceof ANTLRv4Parser.TerminalContext) {

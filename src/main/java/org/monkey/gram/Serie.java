@@ -2,7 +2,6 @@ package org.monkey.gram;
 
 import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.Repetitions;
-import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 import org.monkey.pars.Atom;
 
@@ -11,21 +10,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class Serie extends Repetitive implements NtUpdatable {
-    public List<Repetitive> list = new ArrayList<>();
+public class Serie implements NtUpdatable, RepetOut {
+    public List<RepetOut> list = new ArrayList<>();
     protected List<Repetitions> reps = new ArrayList<>();
 
     public Type getType() {return Type.serie;}
 
     @Override
-    public String realizeString() {
-        return null;
-    }
-
-    @Override
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
         for (var elem: list) {
-            elem.updateLexerRef(lexerMap);
+            ((NtUpdatable)elem).updateLexerRef(lexerMap);
         }
     }
 
@@ -38,7 +32,7 @@ public class Serie extends Repetitive implements NtUpdatable {
 
     public List<Nonterminal> getChildNT() {
         List<Nonterminal> ntList = new ArrayList<>();
-        for (Repetitive sym:list) {
+        for (RepetOut sym:list) {
             List<Nonterminal> ntSubList;
             if (sym.getClass() == Atom.class && ((Atom) sym).cargoNtRule!=null) {
                 ntSubList = null; //nothing to avoid loop recurrence
@@ -57,12 +51,12 @@ public class Serie extends Repetitive implements NtUpdatable {
         return ntList;
     }
 
-    public void add(Repetitive x, Repetitions rep) {
+    public void add(RepetOut x, Repetitions rep) {
         list.add(x);
         reps.add(rep);
     }
 
-    public void addAllOnce(List<Repetitive> xlist) {
+    public void addAllOnce(List<RepetOut> xlist) {
         for (int i=0; i<xlist.size(); i++) {
             list.add(xlist.get(i));
             reps.add(Repetitions.once);

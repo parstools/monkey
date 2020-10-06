@@ -2,14 +2,12 @@ package org.monkey.pars;
 
 import org.monkey.gram.Nonterminal;
 import org.monkey.gram.NtUpdatable;
-import org.monkey.lexer.LexerRule;
-import org.monkey.lexer.RefKind;
-import org.monkey.lexer.Repetitive;
-import org.monkey.lexer.Type;
+import org.monkey.gram.RepetOut;
+import org.monkey.lexer.*;
 
 import java.util.HashMap;
 
-public class Atom extends Repetitive implements NtUpdatable {
+public class Atom extends RepetIn implements NtUpdatable, RepetOut {
     public String cargo;
     public RefKind kind;
     public LexerRule cargoLexerRule = null;
@@ -18,16 +16,6 @@ public class Atom extends Repetitive implements NtUpdatable {
     @Override
     public String toString() {
         return cargo+suffixToString();
-    }
-
-    @Override
-    public Type getType() {
-        return Type.Atom;
-    }
-
-    @Override
-    public String realizeString() {
-        return null;
     }
 
     @Override
@@ -42,5 +30,10 @@ public class Atom extends Repetitive implements NtUpdatable {
         if (kind==RefKind.RuleRef)
             if (parserMap.containsKey(cargo))
                 cargoNtRule = parserMap.get(cargo);
+    }
+
+    @Override
+    public String realizeString() {
+        return null;
     }
 }
