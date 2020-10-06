@@ -26,33 +26,15 @@ import java.util.List;
  */
 public class App 
 {
-    static Nonterminal initGram2(MonkeyListener extractor) throws Exception {
+    static Nonterminal initGram(MonkeyListener extractor) throws Exception {
         List<LexerRule>  rulesL = ParseManager.createLexerRules(extractor.lexerRules);
         List<ParserRule>  rulesP = ParseManager.createParserRules(extractor.parserRules);
-
-/*
-        for (int i=0; i<rulesL.size(); i++)
-            System.out.println(rulesL.get(i).toString());*/
-        /*Nonterminal e = new Nonterminal("e");
-        Nonterminal m = new Nonterminal("m");
-        Nonterminal p = new Nonterminal("p");*/
-
-        ParserRule e1 = rulesP.get(0);
-        ParserRule m1 = rulesP.get(1);
-        ParserRule p1 = rulesP.get(2);
-
         List<Nonterminal>  rulesPI = new ArrayList<>();
         for (var pr: rulesP) {
             rulesPI.add(Importer.imp(pr));
         }
-
-        /*Nonterminal e = Importer.imp(e1);
-        Nonterminal m = Importer.imp(m1);
-        Nonterminal p = Importer.imp(p1);
-*/
         HashMap<String, LexerRule> lexerMap = new HashMap<>();
         HashMap<String, Nonterminal> parserMap = new HashMap<>();
-
         for (var rule: rulesL)
             lexerMap.put(rule.name, rule);
         for (var nt: rulesPI)
@@ -63,57 +45,6 @@ public class App
             rule.updateLexerRef(lexerMap);
             rule.updateNtRef(parserMap);
         }
-
-        var plus = rulesL.get(1);
-        var minus = rulesL.get(2);
-        var star = rulesL.get(3);
-        var div = rulesL.get(4);
-        var left = rulesL.get(5);
-        var right= rulesL.get(6);
-        var literal =  rulesL.get(0);
-
-        /*
-        Serie alt = new Serie();
-        Serie subalt;
-        alt.add(m, Repetitions.once);
-        Serie serie;
-        serie = new Serie();
-        AltSet altList = new AltSet();
-        subalt = new Serie();
-        subalt.add(plus, Repetitions.once);
-        altList.add(subalt);
-        subalt = new Serie();
-        subalt.add(minus, Repetitions.once);
-        altList.add(subalt);
-        serie.add(altList, Repetitions.once);
-        serie.add(m, Repetitions.once);
-        alt.add(serie, Repetitions.zeroOrMore);
-        e.add(alt);
-
-        alt = new Serie();
-        alt.add(p, Repetitions.once);
-        serie = new Serie();
-        altList = new AltSet();
-        subalt = new Serie();
-        subalt.add(star, Repetitions.once);
-        altList.add(subalt);
-        subalt = new Serie();
-        subalt.add(div, Repetitions.once);
-        altList.add(subalt);
-        serie.add(altList, Repetitions.once);
-        serie.add(p, Repetitions.once);
-        alt.add(serie, Repetitions.zeroOrMore);
-        m.add(alt);
-
-        alt = new Serie();
-        alt.add(literal, Repetitions.once);
-        p.add(alt);
-        alt = new Serie();
-        alt.add(left, Repetitions.once);
-        alt.add(e, Repetitions.once);
-        alt.add(right, Repetitions.once);
-        p.add(alt);
-        //p.realize();*/
         return rulesPI.get(0);
     }
 
@@ -151,14 +82,14 @@ public class App
             e.printStackTrace();
         }*/
         try {
-            test2(extractor);
+            test(extractor);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void test2(MonkeyListener extractor) throws Exception {
-        Nonterminal start = initGram2(extractor);
+    private static void test(MonkeyListener extractor) throws Exception {
+        Nonterminal start = initGram(extractor);
         start.setChildsTree();
         start.clearVisitetTree();
         start.updateParentsTree();
