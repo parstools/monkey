@@ -1,7 +1,5 @@
 package org.monkey.lexer;
 
-import org.monkey.pars.ParserRule;
-
 import java.util.HashMap;
 import java.util.List;
 

@@ -6,7 +6,8 @@ import org.monkey.lexer.Repetitions;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 public class Alternative extends Repetitive {
     public List<Repetitive> elements;

@@ -5,9 +5,12 @@ import org.antlr.parser.antlr4.ANTLRv4Parser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.monkey.gram.*;
-import org.monkey.lexer.*;
-import org.monkey.pars.*;
+import org.monkey.gram.Importer;
+import org.monkey.gram.Nonterminal;
+import org.monkey.gram.PumpRule;
+import org.monkey.lexer.LexerRule;
+import org.monkey.pars.ParseManager;
+import org.monkey.pars.ParserRule;
 import org.monkey.tree.NontermNode;
 import org.monkey.tree.RuleManager;
 
