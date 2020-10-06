@@ -1,14 +1,13 @@
 package org.monkey.gram;
 
 import org.monkey.lexer.LexerRule;
-import org.monkey.lexer.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class AltSet implements NtUpdatable, RepetOut{
+public class AltSet implements Updatable, RepetOut{
     protected List<Serie> list = new ArrayList<>();
 
     @Override

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class Nonterminal implements NtUpdatable{
+public class Nonterminal implements Updatable {
     protected List<Serie> list = new ArrayList<>();
     public String name;
     public Nonterminal(String name) {

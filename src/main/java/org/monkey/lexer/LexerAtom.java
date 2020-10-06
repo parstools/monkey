@@ -1,16 +1,17 @@
 package org.monkey.lexer;
 
 import org.monkey.gram.Nonterminal;
-import org.monkey.gram.NtUpdatable;
+import org.monkey.gram.Updatable;
 import org.monkey.pars.ParserRule;
 
 import java.util.HashMap;
 
-public class LexerAtom extends RepetIn implements NtUpdatable {
+public class LexerAtom extends RepetIn implements Updatable {
     public String cargo;
     public RefKind kind;
     public LexerRule cargoLexerRule = null;
     public ParserRule cargoParserRule = null;
+    public boolean not;
 
     @Override
     public String toString() {
@@ -30,6 +31,8 @@ public class LexerAtom extends RepetIn implements NtUpdatable {
                 s = Character.toString(realizeFragment(cargo));
             else if (kind==RefKind.TokenLiteral)
                 s = removeQuotes(cargo);
+            else if (cargoLexerRule!=null)
+                s = cargoLexerRule.realizeString();
             else
                 s = cargo;
             result += s;

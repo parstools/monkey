@@ -42,6 +42,9 @@ public class App
             lexerMap.put(rule.name, rule);
         for (var nt: rulesPI)
             parserMap.put(nt.name, nt);
+        for (var rule: rulesL) {
+            rule.updateLexerRef(lexerMap);
+        }
         for (var rule: rulesPI) {
             rule.updateLexerRef(lexerMap);
             rule.updateNtRef(parserMap);

@@ -4,7 +4,7 @@ import org.monkey.lexer.LexerRule;
 
 import java.util.HashMap;
 
-public interface NtUpdatable {
+public interface Updatable {
     void updateNtRef(HashMap<String, Nonterminal> parserMap);
     void updateLexerRef(HashMap<String, LexerRule> lexerMap);
 }

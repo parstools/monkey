@@ -1,9 +1,12 @@
 package org.monkey.lexer;
 
+import org.monkey.gram.Nonterminal;
+import org.monkey.gram.Updatable;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class LexerAlt {
+public class LexerAlt implements Updatable {
     List<RepetIn> elements;
 
     public void addLexerElements(List<RepetIn> elements) {
@@ -30,4 +33,14 @@ public class LexerAlt {
         return s;
     }
 
+    @Override
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+    }
+
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem: elements) {
+            ((Updatable)elem).updateLexerRef(lexerMap);
+        }
+    }
 }

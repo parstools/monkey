@@ -1,9 +1,12 @@
 package org.monkey.lexer;
 
+import org.monkey.gram.Nonterminal;
+import org.monkey.gram.Updatable;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class LexerRule {
+public class LexerRule implements Updatable {
     public String name;
     List<LexerAlt> alternatives;
 
@@ -33,5 +36,16 @@ public class LexerRule {
         int index = LexerManager.generator.nextInt(alternatives.size());
         var alt = alternatives.get(index);
         return alt.realizeString();
+    }
+
+    @Override
+    public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
+    }
+
+    @Override
+    public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
+        for (var elem:  alternatives) {
+            elem.updateLexerRef(lexerMap);
+        }
     }
 }

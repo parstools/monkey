@@ -1,13 +1,13 @@
 package org.monkey.pars;
 
 import org.monkey.gram.Nonterminal;
-import org.monkey.gram.NtUpdatable;
+import org.monkey.gram.Updatable;
 import org.monkey.gram.RepetOut;
 import org.monkey.lexer.*;
 
 import java.util.HashMap;
 
-public class Atom extends RepetIn implements NtUpdatable, RepetOut {
+public class Atom extends RepetIn implements Updatable, RepetOut {
     public String cargo;
     public RefKind kind;
     public LexerRule cargoLexerRule = null;

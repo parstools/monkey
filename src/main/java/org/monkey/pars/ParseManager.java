@@ -1,6 +1,7 @@
 package org.monkey.pars;
 
 import org.antlr.parser.antlr4.ANTLRv4Parser;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import org.monkey.lexer.*;
 
@@ -30,7 +31,9 @@ public class ParseManager {
         for (int i=0; i<ctx.getChildCount(); i++) {
             if (ctx.getChild(i) instanceof TerminalNodeImpl) {
                 TerminalNodeImpl term = (TerminalNodeImpl)ctx.getChild(i);
-                return term.getText();
+                if (!term.getText().equals("fragment")) {
+                    return term.getText();
+                }
             }
         }
         throw new ParseException("Not found name of lexer rule");
@@ -197,6 +200,18 @@ public class ParseManager {
         } else if (childCtx instanceof TerminalNodeImpl) {
             atom.kind = RefKind.Fragment;
             atom.cargo = ((TerminalNodeImpl)childCtx).getText();
+            atom.not = false;
+        }
+        else if (childCtx instanceof ANTLRv4Parser.NotSetContext) {
+            var ctx1 = childCtx.getChild(1);
+            if (!(ctx1 instanceof ANTLRv4Parser.SetElementContext))
+                throw new ParseException("LexerAtom - not implemented alternative");
+            var ctx2 = ctx1.getChild(0);
+            if (ctx2 instanceof TerminalNodeImpl) {
+                atom.kind = RefKind.Fragment;
+                atom.cargo = ((TerminalNodeImpl)ctx2).getText();
+                atom.not = true;
+            } else throw new ParseException("LexerAtom - not implemented alternative");
         }
         else
             throw new ParseException("LexerAtom - not implemented alternative");

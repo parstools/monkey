@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class Serie implements NtUpdatable, RepetOut {
+public class Serie implements Updatable, RepetOut {
     public List<RepetOut> list = new ArrayList<>();
     protected List<Repetitions> reps = new ArrayList<>();
 
@@ -19,14 +19,14 @@ public class Serie implements NtUpdatable, RepetOut {
     @Override
     public void updateLexerRef(HashMap<String, LexerRule> lexerMap) {
         for (var elem: list) {
-            ((NtUpdatable)elem).updateLexerRef(lexerMap);
+            ((Updatable)elem).updateLexerRef(lexerMap);
         }
     }
 
     @Override
     public void updateNtRef(HashMap<String, Nonterminal> parserMap) {
         for (var elem: list) {
-            ((NtUpdatable)elem).updateNtRef(parserMap);
+            ((Updatable)elem).updateNtRef(parserMap);
         }
     }
 

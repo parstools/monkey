@@ -1,12 +1,7 @@
 package org.monkey.pars;
 
-import org.monkey.gram.Nonterminal;
-import org.monkey.gram.NtUpdatable;
-import org.monkey.lexer.LexerRule;
 import org.monkey.lexer.RepetIn;
-import org.monkey.lexer.Type;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class AltList extends RepetIn{
