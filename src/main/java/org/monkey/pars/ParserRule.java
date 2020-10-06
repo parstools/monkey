@@ -34,42 +34,7 @@ public class ParserRule extends AltList {
     public Type getType() {
         return Type.ParserRule;
     }
-
-    /*
-    Realize
-     */
-    public  List<RealizedRule1> realizedRules;
-    public HashMap<ParserRule, PrPumps> realizedChilds;
-
-    private HashMap<ParserRule, PrPumps> makeRealizedChilds() {
-        HashMap<ParserRule,PrPumps> PrPumps = new HashMap<>();
-        for (var rule: realizedRules) {
-            for (var sym : rule.list) {
-                if (sym instanceof Atom && ((Atom)sym).cargoNtRule!=null) {
-                    if (!PrPumps.containsKey(sym))
-                        PrPumps.put((ParserRule)sym, new PrPumps(sym));
-                } else if (sym instanceof Pump) {
-                    for (var subsym : ((Pump)sym).list) {
-                        if (subsym instanceof Atom && ((Atom)subsym).cargoNtRule!=null)
-                        {
-                            if (!PrPumps.containsKey(subsym))
-                                PrPumps.put((ParserRule)subsym, new PrPumps(subsym));
-                            PrPumps.get(subsym).addPump((Pump)sym);
-                        }
-                    }
-                }
-            }
-        }
-        return PrPumps;
-    }
-
-    public void realize() {
-        realizedRules = makeRealizedRules();
-        for (var rule:realizedRules)
-            rule.computeNTcount();
-        realizedChilds = makeRealizedChilds();
-    }
-
+/*
     public boolean visited = false;
     public List<ParserRule> childs = new ArrayList<>();
     public List<ParserRule> parents = new ArrayList<>();
@@ -172,5 +137,5 @@ public class ParserRule extends AltList {
             return pump.list.size()<choosedPump.list.size();
         else
             return punpCount<punpChoosedCount;
-    }
+    }*/
 }

@@ -5,8 +5,6 @@ import org.monkey.lexer.Repetitions;
 import org.monkey.lexer.Repetitive;
 import org.monkey.lexer.Type;
 import org.monkey.pars.Atom;
-import org.monkey.pars.ParserRule;
-import org.monkey.pars.RealizeType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
