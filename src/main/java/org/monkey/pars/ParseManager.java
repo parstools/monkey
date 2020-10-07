@@ -64,14 +64,14 @@ public class ParseManager {
         return alternatives;
     }
 
-    private static List<LexerAlt> createLexerAlts(List<ANTLRv4Parser.LexerAltContext> alternativesCtx) {
+    private static List<LexerAlt> createLexerAlts(List<ANTLRv4Parser.LexerAltContext> alternativesCtx) throws Exception {
         List<LexerAlt>  alternatives = new ArrayList<>();
         for (var altCtx: alternativesCtx)
             alternatives.add(createLexerAlt(altCtx));
         return alternatives;
     }
 
-    private static LexerAlt createLexerAlt(ANTLRv4Parser.LexerAltContext altCtx) {
+    private static LexerAlt createLexerAlt(ANTLRv4Parser.LexerAltContext altCtx) throws Exception {
         LexerAlt alternative = new LexerAlt();
         List<ANTLRv4Parser.LexerElementContext> elementsCtx = getLexerElementsCtx(altCtx);
         List<RepetIn> elements = createLexerElements(elementsCtx);
@@ -79,7 +79,7 @@ public class ParseManager {
         return alternative;
     }
 
-    private static List<RepetIn> createLexerElements(List<ANTLRv4Parser.LexerElementContext> elementsCtx) {
+    private static List<RepetIn> createLexerElements(List<ANTLRv4Parser.LexerElementContext> elementsCtx) throws Exception {
         if (elementsCtx==null) return null;
         List<RepetIn> elements = new ArrayList<>();
         for (var ctx: elementsCtx)
@@ -116,7 +116,7 @@ public class ParseManager {
         return elements;
     }
 
-    private static RepetIn createLexerElement(ANTLRv4Parser.LexerElementContext ctx) {
+    private static RepetIn createLexerElement(ANTLRv4Parser.LexerElementContext ctx) throws Exception {
         var childCtx = ctx.getChild(0);
         if (childCtx instanceof ANTLRv4Parser.LexerAtomContext) {
             Repetitions rep = Repetitions.once;
@@ -132,7 +132,7 @@ public class ParseManager {
         } else throw new ParseException("not supported element Type "+childCtx.getClass().toString());
     }
 
-    private static RepetIn createLexerBlock(ANTLRv4Parser.LexerBlockContext ctx, Repetitions rep) {
+    private static RepetIn createLexerBlock(ANTLRv4Parser.LexerBlockContext ctx, Repetitions rep) throws Exception {
         for (var el: ctx.children) {
             if (el instanceof ANTLRv4Parser.LexerAltListContext) {
                 LexerAltList block = createLexerAltList((ANTLRv4Parser.LexerAltListContext) el);
@@ -143,7 +143,7 @@ public class ParseManager {
         throw new ParseException("no alexerAltList");
     }
 
-    private static LexerAltList createLexerAltList(ANTLRv4Parser.LexerAltListContext ctx) {
+    private static LexerAltList createLexerAltList(ANTLRv4Parser.LexerAltListContext ctx) throws Exception {
         LexerAltList result = new LexerAltList();
         var altListCtx = getAlternativesCtx4(ctx);
         List<LexerAlt>  altList = createLexerAlts(altListCtx);
@@ -187,7 +187,7 @@ public class ParseManager {
         return result;
     }
 
-    private static LexerAtom createLexerAtom(ANTLRv4Parser.LexerAtomContext ctx, Repetitions rep) {
+    private static LexerAtom createLexerAtom(ANTLRv4Parser.LexerAtomContext ctx, Repetitions rep) throws Exception {
         LexerAtom atom = new LexerAtom();
         var childCtx = ctx.getChild(0);
         if (childCtx instanceof ANTLRv4Parser.TerminalContext) {
@@ -198,9 +198,14 @@ public class ParseManager {
             else
                 atom.kind = RefKind.TokenRef;
         } else if (childCtx instanceof TerminalNodeImpl) {
-            atom.kind = RefKind.Fragment;
             atom.cargo = ((TerminalNodeImpl)childCtx).getText();
-            atom.not = false;
+            if (atom.cargo.equals("."))
+                atom.kind = RefKind.AnyGreedy;
+            else {
+                atom.kind = RefKind.Fragment;
+                atom.invert = false;
+                atom.ranges = new Ranges(atom.cargo, atom.invert);
+            }
         }
         else if (childCtx instanceof ANTLRv4Parser.NotSetContext) {
             var ctx1 = childCtx.getChild(1);
@@ -210,7 +215,8 @@ public class ParseManager {
             if (ctx2 instanceof TerminalNodeImpl) {
                 atom.kind = RefKind.Fragment;
                 atom.cargo = ((TerminalNodeImpl)ctx2).getText();
-                atom.not = true;
+                atom.invert = true;
+                atom.ranges = new Ranges(atom.cargo, atom.invert);
             } else throw new ParseException("LexerAtom - not implemented alternative");
         }
         else

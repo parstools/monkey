@@ -11,7 +11,8 @@ public class LexerAtom extends RepetIn implements Updatable {
     public RefKind kind;
     public LexerRule cargoLexerRule = null;
     public ParserRule cargoParserRule = null;
-    public boolean not;
+    public boolean invert;
+    public Ranges ranges = null;
 
     @Override
     public String toString() {
@@ -28,7 +29,7 @@ public class LexerAtom extends RepetIn implements Updatable {
         for (int j=0; j<count; j++) {
             String s;
             if (kind==RefKind.Fragment)
-                s = Character.toString(realizeFragment(cargo));
+                s = Character.toString(realizeFragment());
             else if (kind==RefKind.TokenLiteral)
                 s = removeQuotes(cargo);
             else if (cargoLexerRule!=null)
@@ -56,13 +57,15 @@ public class LexerAtom extends RepetIn implements Updatable {
         return cargo.substring(1, cargo.length()-1);
     }
 
-    private static char realizeFragment(String cargo) {
-        if (cargo.isEmpty() || cargo.charAt(0)!='[' || cargo.charAt(cargo.length()-1)!=']')
-            throw new ParseException("must be [] in range");
-        int numRanges = cargo.length()/2-1;
+    private char realizeFragment() {
+        if (ranges==null)
+            throw new ParseException("not initialized ranges");
+        if (ranges.rangesFrom.length()!=ranges.rangesTo.length())
+            throw new ParseException("bad ranges");
+        int numRanges = ranges.rangesFrom.length();
         int index = LexerManager.generator.nextInt(numRanges);
-        char from = cargo.charAt(index*2+1);
-        char to = cargo.charAt(index*2+2);
+        char from = ranges.rangesFrom.charAt(index);
+        char to = ranges.rangesTo.charAt(index);
         index = LexerManager.generator.nextInt(to-from+1);
         return (char)(from+index);
     }

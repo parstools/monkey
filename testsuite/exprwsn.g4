@@ -17,8 +17,8 @@ primaryExpression:
 	;
 
 Literal: NONZERODIGIT DIGIT*;
-fragment DIGIT: [09];
-fragment NONZERODIGIT: [19];
+fragment DIGIT: [0-9];
+fragment NONZERODIGIT: [1-9];
 Plus: '+';
 Minus: '-';
 Star:  '*';

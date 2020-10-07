@@ -2,7 +2,7 @@ grammar complexTok2;
 
 start: Literal+ #pound;
 
-Literal: ([AZaz_] [AZaz_09]*)'s' | ([19] [09]*)SUF | 'abc';
+Literal: ([A-Za-z_] [A-Za-z_0-9]*)'s' | ([1-9] [0-9]*)SUF | 'abc';
 
 fragment SUF: 'suf' ;
 Whitespace: [ \t]+ -> skip;

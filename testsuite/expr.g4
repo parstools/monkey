@@ -16,7 +16,7 @@ primaryExpression:
 	| LParen expression RParen
 	;
 
-Literal: [19] [09]*;
+Literal: [1-9] [0-9]*;
 Plus: '+';
 Minus: '-';
 Star:  '*';

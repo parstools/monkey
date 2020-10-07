@@ -4,7 +4,7 @@ start: Literal+ #pound;
 
 Literal: Ident | Number;
 
-Ident: [AZaz_] [AZaz_09]*;
-Number: [19] [09]*;
+Ident: [A-Za-z_] [A-Za-z_0-9]*;
+Number: [1-9] [0-9]*;
 Whitespace: [ \t]+ -> skip;
 

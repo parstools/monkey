@@ -1,5 +1,5 @@
 package org.monkey.lexer;
 
 public enum RefKind {
-    TokenLiteral,TokenRef, Fragment, RuleRef
+    TokenLiteral,TokenRef, Fragment, RuleRef, AnyGreedy
 }

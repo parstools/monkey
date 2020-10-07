@@ -7,6 +7,6 @@ grammarType
    : ('lexer' 'grammar' | 'parser' 'grammar' | 'grammar');
 
 
-Identifier: [AZaz]+;
+Identifier: [A-Za-z]+;
 
 Whitespace: [ \t]+ -> skip;
