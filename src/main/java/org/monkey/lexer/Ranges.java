@@ -80,10 +80,15 @@ public class Ranges {
             from = readChar(s);
             if (pos<s.length()-2 && s.charAt(pos+1)=='-') {
                 pos+=2;
-                to = readChar(s);
+                if (pos==s.length()-1) {
+                    asciiSet.set(from, from + 1);
+                    to = from = '-';
+                } else
+                    to = readChar(s);
             } else to = from;
             pos++;
             asciiSet.set(from, to+1);
         }
     }
 }
+
