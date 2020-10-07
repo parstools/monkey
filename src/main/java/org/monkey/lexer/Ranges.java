@@ -42,21 +42,21 @@ public class Ranges {
             case '\\': return '\\';
             case '-': return '-';
             case ']': return ']';
-            default: throw new ParseException("range definition "+s+ " is unknown \\"+c);
+            default: throw new ParsException("range definition "+s+ " is unknown \\"+c);
         }
     }
 
     private char readChar(String s) throws Exception {
         char c = s.charAt(pos);
-        if (c==']') throw new ParseException("range definition "+s+ " is ] without \\");
-        else if (c=='\t') throw new ParseException("range definition "+s+ " for tab use \\t");
+        if (c==']') throw new ParsException("range definition "+s+ " is ] without \\");
+        else if (c=='\t') throw new ParsException("range definition "+s+ " for tab use \\t");
         else if (c=='\\') {
             pos++;
-            if (pos>=s.length()-1) throw new ParseException("range definition "+s+ " ends with \\");
+            if (pos>=s.length()-1) throw new ParsException("range definition "+s+ " ends with \\");
             char nextc = s.charAt(pos);
             return slashed(nextc,s);
         }
-        else if (c=='-') throw new ParseException("range definition "+s+ " is - without \\");
+        else if (c=='-') throw new ParsException("range definition "+s+ " is - without \\");
         else return c;
     }
 
@@ -73,7 +73,7 @@ public class Ranges {
 
     private void parseRanges(String s) throws Exception {
         if (s.isEmpty() || s.charAt(0)!='[' || s.charAt(s.length()-1)!=']')
-            throw new ParseException("Bad range definition "+s);
+            throw new ParsException("Bad range definition "+s);
         pos=1;
         int from, to;
         while (pos<s.length()-1) {

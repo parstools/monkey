@@ -1,7 +1,6 @@
 package org.monkey.pars;
 
 import org.antlr.parser.antlr4.ANTLRv4Parser;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import org.monkey.lexer.*;
 
@@ -36,7 +35,7 @@ public class ParseManager {
                 }
             }
         }
-        throw new ParseException("Not found name of lexer rule");
+        throw new ParsException("Not found name of lexer rule");
     }
 
     public static List<ParserRule> createParserRules(List<ANTLRv4Parser.ParserRuleSpecContext> parserRules) throws Exception {
@@ -129,7 +128,7 @@ public class ParseManager {
             if (ctx.getChildCount()>1)
                 rep = repFromSuffix((ANTLRv4Parser.EbnfSuffixContext)ctx.getChild(1));
             return createLexerBlock((ANTLRv4Parser.LexerBlockContext)childCtx, rep);
-        } else throw new ParseException("not supported element Type "+childCtx.getClass().toString());
+        } else throw new ParsExceptionCtx("not supported element Type", childCtx);
     }
 
     private static RepetIn createLexerBlock(ANTLRv4Parser.LexerBlockContext ctx, Repetitions rep) throws Exception {
@@ -140,7 +139,7 @@ public class ParseManager {
                 return block;
             }
         }
-        throw new ParseException("no alexerAltList");
+        throw new ParsExceptionCtx("no alexerAltList",ctx);
     }
 
     private static LexerAltList createLexerAltList(ANTLRv4Parser.LexerAltListContext ctx) throws Exception {
@@ -161,7 +160,7 @@ public class ParseManager {
             }
             else if (childCtx instanceof ANTLRv4Parser.EbnfContext) {
                 return createEbnf((ANTLRv4Parser.EbnfContext)childCtx);
-            } else throw new ParseException("not supported element Type "+childCtx.getClass().toString());
+            } else throw new ParsExceptionCtx("not supported element Type",childCtx);
     }
 
     private static RepetIn createEbnf(ANTLRv4Parser.EbnfContext ctx) throws Exception {
@@ -176,7 +175,7 @@ public class ParseManager {
                 return block;
             }
         }
-        throw new ParseException("bad block");
+        throw new ParsExceptionCtx("bad block", ctx);
     }
 
     private static AltList createAltList(ANTLRv4Parser.AltListContext ctx) throws Exception {
@@ -210,17 +209,17 @@ public class ParseManager {
         else if (childCtx instanceof ANTLRv4Parser.NotSetContext) {
             var ctx1 = childCtx.getChild(1);
             if (!(ctx1 instanceof ANTLRv4Parser.SetElementContext))
-                throw new ParseException("LexerAtom - not implemented alternative");
+                throw new ParsExceptionCtx("LexerAtom - not implemented alternative",ctx1);
             var ctx2 = ctx1.getChild(0);
             if (ctx2 instanceof TerminalNodeImpl) {
                 atom.kind = RefKind.Fragment;
                 atom.cargo = ((TerminalNodeImpl)ctx2).getText();
                 atom.invert = true;
                 atom.ranges = new Ranges(atom.cargo, atom.invert);
-            } else throw new ParseException("LexerAtom - not implemented alternative");
+            } else throw new ParsExceptionCtx("LexerAtom - not implemented alternative",ctx2);
         }
         else
-            throw new ParseException("LexerAtom - not implemented alternative");
+            throw new ParsExceptionCtx("LexerAtom - not implemented alternative", childCtx);
         atom.rep = rep;
         return atom;
     }
@@ -241,7 +240,9 @@ public class ParseManager {
             atom.cargo = ((TerminalNodeImpl)childCtx.getChild(0)).getText();
         }
         else
-            throw new ParseException("Atom - not implemented alternative");
+        {
+            throw new ParsExceptionCtx("Atom - not implemented alternative",childCtx);
+        }
         atom.rep = rep;
         return atom;
     }
@@ -258,9 +259,9 @@ public class ParseManager {
                case "?": return Repetitions.maybe;
                 case "*": return Repetitions.zeroOrMore;
                 case "+": return Repetitions.oneOrMore;
-                default: throw new ParseException("must be ? * +");
+                default: throw new ParsExceptionCtx("must be ? * +",ctx);
             }
-        } else throw new ParseException("must be terminal");
+        } else throw new ParsExceptionCtx("must be terminal",ctx);
     }
 
     private static List<ANTLRv4Parser.ElementContext> getElementsCtx(ANTLRv4Parser.AlternativeContext altCtx) {
@@ -283,7 +284,7 @@ public class ParseManager {
                 block = (ANTLRv4Parser.RuleBlockContext)ctx.getChild(i);
             }
         }
-        if (block==null) throw new ParseException("not found RuleBlock");
+        if (block==null) throw new ParsExceptionCtx("not found RuleBlock",ctx);
         ANTLRv4Parser.RuleAltListContext altList = (ANTLRv4Parser.RuleAltListContext)block.getChild(0);
         for (var elem: altList.children) {
             if (elem instanceof ANTLRv4Parser.LabeledAltContext) {
@@ -303,7 +304,7 @@ public class ParseManager {
                 block = (ANTLRv4Parser.LexerRuleBlockContext)ctx.getChild(i);
             }
         }
-        if (block==null) throw new ParseException("not found LexerRuleBlock");
+        if (block==null) throw new ParsExceptionCtx("not found LexerRuleBlock",ctx);
         ANTLRv4Parser.LexerAltListContext altList = (ANTLRv4Parser.LexerAltListContext)block.getChild(0);
         for (var elem: altList.children) {
             if (elem instanceof ANTLRv4Parser.LexerAltContext) {
@@ -341,6 +342,6 @@ public class ParseManager {
                 return term.getText();
             }
         }
-        throw new ParseException("Not found name of parsing rule");
+        throw new ParsExceptionCtx("Not found name of parsing rule",ctx);
     }
 }

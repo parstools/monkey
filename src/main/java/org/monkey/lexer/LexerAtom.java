@@ -59,9 +59,9 @@ public class LexerAtom extends RepetIn implements Updatable {
 
     private char realizeFragment() {
         if (ranges==null)
-            throw new ParseException("not initialized ranges");
+            throw new ParsException("not initialized ranges");
         if (ranges.rangesFrom.length()!=ranges.rangesTo.length())
-            throw new ParseException("bad ranges");
+            throw new ParsException("bad ranges");
         int numRanges = ranges.rangesFrom.length();
         int index = LexerManager.generator.nextInt(numRanges);
         char from = ranges.rangesFrom.charAt(index);
