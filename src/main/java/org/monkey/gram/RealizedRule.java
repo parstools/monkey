@@ -41,4 +41,14 @@ public class RealizedRule {
             if (elem.getClass()==Atom.class && ((Atom)elem).cargoNtRule!=null)
                 ntCount++;
     }
+
+    public List<Nonterminal> getPumpedNt() {
+        List<Nonterminal> pumpedNt = new ArrayList<>();
+        for (var elem: list)
+            if (elem.getClass()==Serie.class) {
+                List<Nonterminal> sublist = ((Serie) elem).getPumpedNt();
+                pumpedNt.addAll(sublist);
+            }
+        return pumpedNt;
+    }
 }

@@ -50,6 +50,7 @@ public class App
             rule.updateNtRef(parserMap);
         }
         return rulesPI.get(0);
+        //return parserMap.get("primaryExpression");
     }
 
     public static void main(String[] args) {
@@ -99,6 +100,8 @@ public class App
         start.updateParentsTree();
         start.clearVisitetTree();
         start.realizeTree();
+        start.clearVisitetTree();
+        start.setManyCalled(false);
         start.clearVisitetTree();
         //todo: move to manager
         NontermNode node = new NontermNode(start);

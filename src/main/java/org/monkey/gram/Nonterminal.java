@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Nonterminal implements Updatable {
+    public boolean isManyCalled = false;
     protected List<Serie> list = new ArrayList<>();
     public String name;
     public Nonterminal(String name) {
@@ -106,12 +107,41 @@ public class Nonterminal implements Updatable {
 
     static PumpRule getBestPump(List<Nonterminal> parents, Nonterminal nt) {
         if (parents.size()==0) return null;
-        PumpRule bestpr = new PumpRule();
+        PumpRule bestpr = null;
         for (var parent: parents) {
             PumpRule pr = parent.getBestPump(nt);
-            if (Nonterminal.betterPump(pr.s, bestpr.s)) bestpr = pr;
+            if (pr!=null) {
+                if (bestpr==null)
+                    bestpr = pr;
+                else
+                    if (Nonterminal.betterPump(pr.s, bestpr.s)) bestpr = pr;
+            }
         }
         return bestpr;
+    }
+
+    List<Nonterminal> getPumpedNt() {
+        List<Nonterminal> pumpedNt = new ArrayList<>();
+        for (var rule:realizedRules) {
+            List<Nonterminal> sublist = rule.getPumpedNt();
+            pumpedNt.addAll(sublist);
+        }
+        pumpedNt = new ArrayList<>(new HashSet<>(pumpedNt));//remove duplicates
+        return pumpedNt;
+    }
+
+    public void setManyCalled(boolean set) {
+        if (visited) return;
+        isManyCalled = set;
+        List<Nonterminal> childs = getChildNT();
+        List<Nonterminal> pumpedList = getPumpedNt();
+        visited = true;
+        for (var child: childs) {
+            boolean b;
+            if (set) b=true;
+            else b = pumpedList.indexOf(child)>=0;
+            child.setManyCalled(b);
+        }
     }
 
     public void checkNotCovered(List<PumpRule> pumps) {
@@ -120,7 +150,6 @@ public class Nonterminal implements Updatable {
         for (int i=0; i<realizedRules.size(); i++) {
             var rule = realizedRules.get(i);
             if (rule.useCount==0 && i>0) {
-                System.out.println(i);
                 PumpRule bestPump = getBestPump(parents, this);
                 if (bestPump!=null) pumps.add(bestPump);
             }
@@ -132,12 +161,13 @@ public class Nonterminal implements Updatable {
     }
 
     public PumpRule getBestPump(Nonterminal nt) {
-        PumpRule bestpr = new PumpRule();
+        PumpRule bestpr = null;
         for (var rule: realizedRules) {
             for (var sym: rule.list)
                 if (sym instanceof Serie) {
                     if (((Serie)sym).pumpContain(nt))
-                        if (betterPump((Serie)sym,bestpr.s)) {
+                        if (bestpr==null || betterPump((Serie)sym,bestpr.s)) {
+                            if (bestpr==null) bestpr = new PumpRule();
                             bestpr.s = (Serie) sym;
                             bestpr.r = rule;
                         }

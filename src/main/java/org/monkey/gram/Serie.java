@@ -257,4 +257,11 @@ public class Serie implements Updatable, RepetOut {
         return counter;
     }
 
+    public List<Nonterminal> getPumpedNt() {
+        List<Nonterminal> pumpedNt = new ArrayList<>();
+        for (var elem: list)
+            if (elem.getClass()==Atom.class && ((Atom)elem).cargoNtRule!=null)
+                pumpedNt.add(((Atom)elem).cargoNtRule);
+        return pumpedNt;
+    }
 }

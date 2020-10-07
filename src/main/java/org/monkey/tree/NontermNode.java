@@ -22,9 +22,12 @@ public class NontermNode extends Node {
         this.nt = nonterminal;
     }
 
-    private static boolean better(RealizedRule rule, RealizedRule choosedRule) {
+    private boolean better(RealizedRule rule, RealizedRule choosedRule) {
         if (rule.useCount==choosedRule.useCount)
-            return rule.size() > choosedRule.size();
+            if (nt.isManyCalled)
+                return rule.size() < choosedRule.size();
+            else
+                return rule.size() > choosedRule.size();
         else
             return rule.useCount < choosedRule.useCount;
     }
